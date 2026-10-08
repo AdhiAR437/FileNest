@@ -2,6 +2,8 @@
 
 Private-first file utilities. A static Astro + React + TypeScript website with browser-local transformations and no backend, accounts, uploaded-file storage, analytics, ads, or paid services in the initial implementation.
 
+Live preview: https://filenest-c0y.pages.dev/
+
 ## Getting started
 
 Requires Node.js 24 and npm. The lockfile pins the installed versions.
@@ -29,6 +31,11 @@ npm run build
 - JSON comparison: structural comparison with object order ignored, arrays compared by position, JSON Pointer paths, and downloadable change records.
 - CSV → JSON: header-based records, quoted field support, string values preserved, duplicate/malformed headers and rows rejected.
 - JSON → CSV: union of record fields, nested values serialised as JSON, formula-like values prefixed to reduce spreadsheet formula injection.
+- Image converter: JPG/PNG/WebP, preview, quality control and explicit JPEG matte colour.
+- Image compressor: JPG/WebP quality adjustment and bounded target-size search; reports unreachable targets and larger output.
+- Image resize & crop: pixel dimensions, aspect-ratio lock and optional pixel-coordinate crop.
+
+Image jobs use disposable workers with native ImageBitmap/OffscreenCanvas, a 30-second timeout and cancellation. Still images only: up to 15 MB, 8,000 pixels per side and 12 megapixels total; SVG/GIF/HEIC and animated PNG/WebP are rejected. Output format is checked against browser encoder fallback. EXIF metadata is not retained; browser colour handling and codec support vary. No image dependencies or external APIs are added.
 
 Comparison and data conversion run in disposable Web Workers with cancellation and a six-second timeout. Text diff also has a library timeout. Inputs are limited to 1 MB and text comparison to 100,000 characters per side. Contents live in component memory only and are not retained on reload.
 

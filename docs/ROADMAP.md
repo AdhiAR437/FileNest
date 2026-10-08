@@ -12,13 +12,15 @@
 - [x] Generated dependency licence notices.
 - [x] Publish the verified starter source to AdhiAR437/FileNest.
 - [ ] Add final domain, sitemap, canonical metadata, operator contact, and final terms.
-- [ ] Public Cloudflare deployment and verification.
+- [x] Initial Cloudflare Pages deployment and basic verification at https://filenest-c0y.pages.dev/.
 
 ## Phase 2 — Images
 
-- Image resize/crop and JPG/PNG/WebP conversion with transparency rules.
-- Image compression with target-size feedback and an explicit unattainable-target outcome.
-- Batch processing and preview; orientation, colour, and mobile memory testing.
+- [x] Image resize/crop and JPG/PNG/WebP conversion with transparency rules.
+- [x] JPG/WebP compression with target-size feedback and an explicit unattainable-target outcome.
+- [x] Worker processing, cancellation, input/output limits, previews and download verification.
+- [x] Chromium orientation, alpha, JPEG matte and crop pixel checks; desktop/mobile viewport layouts.
+- [ ] Batch processing and real-device memory testing; Firefox/Safari and colour-profile fidelity checks.
 
 ## Phase 3 — PDF essentials
 
