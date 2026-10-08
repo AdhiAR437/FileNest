@@ -1,0 +1,27 @@
+---
+import '../styles/global.css';
+const { title = 'FileNest — Small tools. Better files.', description = 'Free browser-based Markdown, comparison, and data tools. No account needed. File contents are processed on your device.' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#f7f6f2" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <header class="site-header wrap">
+      <a href="/" class="brand" aria-label="FileNest home"><span class="brand-mark">f.</span>file<span class="brand-md">nest</span></a>
+      <nav aria-label="Main navigation"><a href="/#tools">All tools</a><a href="/about">Our approach</a><span class="header-tag"><i></i> Free. No signup.</span></nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer wrap">
+      <div><a href="/" class="brand small-brand"><span class="brand-mark">f.</span>file<span class="brand-md">nest</span></a><p>A little less friction. A better file.</p></div>
+      <div class="footer-links"><a href="/about">About & roadmap</a><a href="/privacy">Privacy</a><a href="/licenses">Open-source notices</a><span>Built for your browser ↗</span></div>
+    </footer>
+  </body>
+</html>

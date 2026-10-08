@@ -1,0 +1,16 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Workbench from '../../components/Workbench';
+import { tools } from '../../lib/catalog';
+export function getStaticPaths() { return tools.map(tool => ({ params: { tool: tool.id }, props: { tool } })); }
+const { tool } = Astro.props;
+---
+<Layout title={`${tool.name} — Free local file tools | FileNest`} description={`${tool.description} Free to use, no signup, and processed locally in your browser.`}>
+  <section class="workbench-page wrap">
+    <a href="/#tools" class="back-link">← All tools</a>
+    <div class="workbench-heading"><div><div class="eyebrow">{tool.category.toUpperCase()} / PROCESSED LOCALLY</div><h1>{tool.name}</h1><p>{tool.description}</p></div><span class="tool-icon large-icon">{tool.symbol}</span></div>
+    <Workbench id={tool.id} client:load />
+    <div class="tool-explanation"><div><h2>How it works</h2><ol><li>Paste your content or open a supported local file.</li><li>Choose your settings, then preview or process it.</li><li>Copy or download the result. Clear your work when finished.</li></ol></div><div><h2>A few useful details</h2><p>{tool.kind === 'markdown' ? 'Remote images and embedded content are disabled. PDF export opens your browser’s print dialog; select Save as PDF where supported. Complex layouts and browser pagination can vary.' : tool.kind === 'json' ? 'Object key order is ignored. Arrays are compared by position. Changes use JSON Pointer paths; this is a structural comparison, not a semantic merge.' : tool.kind === 'data' ? 'CSV needs a header row. CSV → JSON keeps values as strings to preserve IDs and leading zeroes. JSON → CSV accepts an array of records, serialises nested values, and prefixes formula-like cells for safer spreadsheet opening.' : 'Compare line changes in a unified view. Whitespace and case rules are optional. Large or complex comparisons may be stopped to keep your browser responsive.'}</p><p>Inputs are limited to 1 MB; text comparison is limited to 100,000 characters per side. File contents are not saved between visits.</p></div></div>
+    <div class="related-tools"><span class="eyebrow">KEEP GOING</span>{tools.filter(other => other.id !== tool.id && other.category === tool.category).map(other => <a href={`/tools/${other.id}`}>{other.name} ↗</a>)}</div>
+  </section>
+</Layout>

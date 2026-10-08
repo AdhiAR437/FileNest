@@ -1,0 +1,32 @@
+{
+  "name": "filenest",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 0.0.0.0",
+    "build": "astro build && node scripts/security-headers.mjs",
+    "preview": "astro preview --host 0.0.0.0",
+    "check": "astro check",
+    "test": "vitest run",
+    "licenses": "node scripts/licenses.mjs"
+  },
+  "dependencies": {
+    "@astrojs/react": "^7.0.1",
+    "astro": "^7.3.7",
+    "diff": "^9.0.0",
+    "dompurify": "^3.4.16",
+    "marked": "^18.1.0",
+    "papaparse": "^5.7.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/papaparse": "^5.5.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.3"
+  }
+}

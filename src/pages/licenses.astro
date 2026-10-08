@@ -1,0 +1,7 @@
+---
+import Layout from '../layouts/Layout.astro';
+import licenses from '../data/licenses.json';
+---
+<Layout title="FileNest — Open-source licence notices">
+  <article class="prose-page wrap"><div class="eyebrow">MADE WITH OPEN SOURCE</div><h1>Good tools build on good work.</h1><p>FileNest uses the open-source packages listed below. Their licences and copyright notices apply to their respective code. This list includes installed production dependencies, including build tools that may not be distributed in the browser.</p>{licenses.map(pkg => <details><summary>{pkg.name} · {pkg.version} · {pkg.license}</summary>{pkg.notices.length ? pkg.notices.map(notice => <pre>{notice.file}{'\n\n'}{notice.text}</pre>) : <p>No top-level licence text was included in this installed package. Refer to its package metadata and upstream distribution.</p>}</details>)}</article>
+</Layout>
