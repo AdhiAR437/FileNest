@@ -8,5 +8,11 @@ export const tools = [
   { id: 'image-converter', name: 'Image converter', category: 'Images', symbol: '↔', description: 'Convert between JPG, PNG, and WebP with a clear preview.', input: 'Image', output: 'Image', kind: 'image', mode: 'convert' },
   { id: 'image-compressor', name: 'Image compressor', category: 'Images', symbol: '↓', description: 'Adjust JPG or WebP quality, or aim for a target file size.', input: 'Image', output: 'Smaller image', kind: 'image', mode: 'compress' },
   { id: 'image-resize', name: 'Image resize & crop', category: 'Images', symbol: '⌗', description: 'Set pixel dimensions, keep proportions, and crop your image.', input: 'Image', output: 'Resized image', kind: 'image', mode: 'resize' },
+  { id: 'images-to-pdf', name: 'Images to PDF', category: 'PDF', symbol: '▧', description: 'Combine your images into a PDF in the order you choose.', input: 'Images', output: 'PDF', kind: 'pdf', mode: 'images' },
+  { id: 'merge-pdf', name: 'Merge PDF', category: 'PDF', symbol: '+', description: 'Combine multiple PDFs into one document.', input: 'PDFs', output: 'PDF', kind: 'pdf', mode: 'merge' },
+  { id: 'split-pdf', name: 'Split PDF', category: 'PDF', symbol: '÷', description: 'Extract selected pages or save separate PDFs in a ZIP.', input: 'PDF', output: 'PDF / ZIP', kind: 'pdf', mode: 'split' },
+  { id: 'organise-pdf', name: 'Organise PDF', category: 'PDF', symbol: '↕', description: 'Reorder, rotate, and remove pages before saving.', input: 'PDF', output: 'PDF', kind: 'pdf', mode: 'organise' },
+  { id: 'pdf-to-images', name: 'PDF to images', category: 'PDF', symbol: '▤', description: 'Export selected PDF pages as PNG or JPG images.', input: 'PDF', output: 'Image ZIP', kind: 'pdf', mode: 'render' },
+  { id: 'pdf-to-text', name: 'PDF to text', category: 'PDF', symbol: 'Aa', description: 'Extract selectable text into a downloadable text file.', input: 'PDF', output: 'Text', kind: 'pdf', mode: 'text' },
 ] as const;
 export type ToolId = typeof tools[number]['id'];

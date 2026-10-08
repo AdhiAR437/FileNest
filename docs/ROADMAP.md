@@ -24,9 +24,10 @@
 
 ## Phase 3 — PDF essentials
 
-- Install/review pdf-lib and PDF.js; implement images → PDF and merge/split.
-- Page thumbnails, reorder/delete/rotate, PDF → images/text.
-- Device-tested size/page-count limits, progress and cancellation.
+- [x] Review/install pdf-lib, PDF.js and fflate; implement images → PDF and merge/split.
+- [x] On-demand page previews, reorder/delete/rotate, PDF → images/text.
+- [x] Size/page-count limits, progress and cancellation; Chromium output verification.
+- [ ] Broader PDF fidelity corpus, full thumbnail grid, Firefox/Safari and low-memory mobile testing.
 
 ## Phase 4 — Audience and revenue
 
