@@ -23,12 +23,16 @@ npm run licenses
 npm run build
 ```
 
-## Working tools — 15 total
+## Working tools — 19 total
 
 - Markdown → HTML: sanitised live preview, HTML source, copy, and self-contained HTML download.
+- Markdown → Word: browser-local DOCX generation with headings, emphasis, lists, tables, code and safe hyperlinks; images/HTML are omitted with warnings.
 - Markdown → PDF: browser print dialog; choose Save as PDF when available. This is not a direct PDF-generation engine.
 - Text comparison: unified line differences, optional case and edge-whitespace rules; accepts an empty side.
 - JSON comparison: structural comparison with object order ignored, arrays compared by position, JSON Pointer paths, and downloadable change records.
+- CSV comparison: CSV/TSV exports, row-position or exact key-column matching, changed cells and column additions/removals, JSON report download.
+- JSON formatter/validator: beautify/minify/validate without changing original number lexemes, escapes, key order or duplicate keys.
+- Image comparison: equal-size images, side-by-side/overlay/difference views, RGB threshold, changed-pixel statistics and PNG mask download.
 - CSV → JSON: header-based records, quoted field support, string values preserved, duplicate/malformed headers and rows rejected.
 - JSON → CSV: union of record fields, nested values serialised as JSON, formula-like values prefixed to reduce spreadsheet formula injection.
 - Image converter: JPG/PNG/WebP, preview, quality control and explicit JPEG matte colour.
@@ -45,7 +49,9 @@ Image jobs use disposable workers with native ImageBitmap/OffscreenCanvas, a 30-
 
 PDF jobs have a 60-second timeout and cancellation, with 20 MB per PDF, 40 MB combined and 100 pages total. Images → PDF accepts 20 images and 40 megapixels combined, subject to individual image limits. Page-image export accepts 20 pages per job and 12 megapixels per rendered page. Binary output is capped at 50 MB and extracted text at 5 MB. Encrypted PDFs and interactive forms/signatures are rejected. Page operations do not preserve document-level bookmarks or metadata and are not a sanitisation workflow. PDF.js rendering excludes annotations. Browser and device fidelity still need broader validation.
 
-Comparison and data conversion run in disposable Web Workers with cancellation and a six-second timeout. Text diff also has a library timeout. Inputs are limited to 1 MB and text comparison to 100,000 characters per side. Contents live in component memory only and are not retained on reload.
+The new CSV/JSON tools accept 1 MB per input and have a 10-second worker timeout. CSVs support 10,000 rows and 100 columns each; the full JSON report is downloadable and screen previews are capped. JSON allows 200 nesting levels and up to 8 million output characters. Image comparison supports two equal-size still images, 15 MB and 6 megapixels each, a 30-second timeout and 20 MB mask output; transparency is composited on white. Markdown → Word accepts 250 KB, 5,000 blocks and a 30-second timeout; DOCX output is capped at 10 MB, tables at 10 columns/500 rows. Word pagination and browser-preview layout differ.
+
+Text/JSON comparison and CSV↔JSON conversion run in disposable Web Workers with cancellation and a six-second timeout. Text diff also has a library timeout. Inputs are limited to 1 MB and text comparison to 100,000 characters per side. Contents live in component memory only and are not retained on reload.
 
 Markdown is sanitised with DOMPurify. Remote image/media elements and executable content are removed. Exported documents retain ordinary links. No external fonts, assets, or conversion APIs are used.
 
@@ -70,6 +76,6 @@ The `.github/workflows/ci.yml` pipeline checks types, transformation tests, gene
 
 ## Licences
 
-Application source is reserved for its owner; see `LICENSE`. Open-source dependencies retain their own licences. `npm run licenses` generates version-specific installed production dependency notices in `src/data/licenses.json`, served at `/licenses`. New engines, fonts, codecs, and dependencies must be reviewed separately. PDF generation/page operations use MIT-licensed pdf-lib; rendering and text extraction use Apache-2.0 PDF.js; ZIP outputs use MIT-licensed fflate. PDF.js fonts, character maps and decoder assets (with their bundled notices) are copied locally during dev/build, with no CDN requests.
+Application source is reserved for its owner; see `LICENSE`. Open-source dependencies retain their own licences. `npm run licenses` generates version-specific installed production dependency notices in `src/data/licenses.json`, served at `/licenses`. New engines, fonts, codecs, and dependencies must be reviewed separately. Word export uses the MIT-licensed docx library. PDF generation/page operations use MIT-licensed pdf-lib; rendering and text extraction use Apache-2.0 PDF.js; ZIP outputs use MIT-licensed fflate. PDF.js fonts, character maps and decoder assets (with their bundled notices) are copied locally during dev/build, with no CDN requests.
 
 See [docs/ROADMAP.md](docs/ROADMAP.md) for the development phases.

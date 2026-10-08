@@ -39,7 +39,9 @@
 
 ## Phase 5 — Advanced tools, based on observed demand
 
-- CSV key-column comparison, image comparison, Markdown → DOCX.
+- [x] CSV key-column comparison, image comparison and Markdown → DOCX.
+- [x] JSON beautify/minify/validate with original number lexemes retained.
+- [ ] Batch image processing and PDF compression.
 - Carefully scoped OCR and PDF/DOCX text comparison.
 - Paid server-based Office conversion only after measuring fidelity and operating cost.
 

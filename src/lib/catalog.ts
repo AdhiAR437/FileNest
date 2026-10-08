@@ -14,5 +14,9 @@ export const tools = [
   { id: 'organise-pdf', name: 'Organise PDF', category: 'PDF', symbol: '↕', description: 'Reorder, rotate, and remove pages before saving.', input: 'PDF', output: 'PDF', kind: 'pdf', mode: 'organise' },
   { id: 'pdf-to-images', name: 'PDF to images', category: 'PDF', symbol: '▤', description: 'Export selected PDF pages as PNG or JPG images.', input: 'PDF', output: 'Image ZIP', kind: 'pdf', mode: 'render' },
   { id: 'pdf-to-text', name: 'PDF to text', category: 'PDF', symbol: 'Aa', description: 'Extract selectable text into a downloadable text file.', input: 'PDF', output: 'Text', kind: 'pdf', mode: 'text' },
+  { id: 'csv-diff', name: 'CSV comparison', category: 'Compare', symbol: '▦', description: 'Find changed rows and cells in CSV exports, with optional key matching.', input: 'CSV', output: 'Diff', kind: 'data-tool', mode: 'csv' },
+  { id: 'image-diff', name: 'Image comparison', category: 'Compare', symbol: '◐', description: 'Compare pixels with side-by-side, overlay and difference views.', input: 'Images', output: 'Diff', kind: 'image-compare' },
+  { id: 'markdown-to-docx', name: 'Markdown to Word', category: 'Markdown', symbol: 'W', description: 'Export Markdown headings, lists, tables and code to a Word document.', input: 'Markdown', output: 'DOCX', kind: 'markdown' },
+  { id: 'json-formatter', name: 'JSON formatter & validator', category: 'Data', symbol: '{ }', description: 'Beautify, minify or validate JSON while keeping original numbers intact.', input: 'JSON', output: 'JSON', kind: 'data-tool', mode: 'json' },
 ] as const;
 export type ToolId = typeof tools[number]['id'];

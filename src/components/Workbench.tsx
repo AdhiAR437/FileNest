@@ -28,11 +28,12 @@ export default function Workbench({ id }: { id: ToolId }) {
   const [left, setLeft] = useState(''); const [right, setRight] = useState('');
   const [whitespace, setWhitespace] = useState(false); const [ignoreCase, setIgnoreCase] = useState(false);
   const [html, setHtml] = useState(''); const [raw, setRaw] = useState(false);
+  const [word, setWord] = useState<{ blob: Blob; warnings: string[] } | null>(null);
   const [result, setResult] = useState<string | Change[] | JsonChange[] | null>(null);
   const [error, setError] = useState(''); const [status, setStatus] = useState(''); const [busy, setBusy] = useState(false);
-  const worker = useRef<Worker | null>(null); const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const generation = useRef(0); const worker = useRef<Worker | null>(null); const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fileLeft = useRef<HTMLInputElement>(null); const fileRight = useRef<HTMLInputElement>(null);
-  function stop() { worker.current?.terminate(); worker.current = null; if (timer.current) clearTimeout(timer.current); timer.current = null; setBusy(false); }
+  function stop() { generation.current++; worker.current?.terminate(); worker.current = null; if (timer.current) clearTimeout(timer.current); timer.current = null; setBusy(false); }
   useEffect(() => () => { worker.current?.terminate(); if (timer.current) clearTimeout(timer.current); }, []);
   useEffect(() => {
     if (!markdown) return;
@@ -43,30 +44,43 @@ export default function Workbench({ id }: { id: ToolId }) {
     return () => clearTimeout(timeout);
   }, [left, markdown]);
   function edit(value: string, side: 'left' | 'right') {
-    stop(); setError(''); setStatus(''); setResult(null);
+    stop(); setError(''); setStatus(''); setResult(null); setWord(null);
     if (new TextEncoder().encode(value).length > MAX || (id === 'text-diff' && value.length > 100_000)) { setError('This input is too large. Use up to 1 MB, or 100,000 characters for text comparison.'); return; }
     if (markdown && value !== left) setHtml('');
     if (side === 'left') setLeft(value); else setRight(value);
   }
   async function loadFile(file: File | undefined, side: 'left' | 'right') {
     if (!file) return;
+    stop(); const version = generation.current;
     if (file.size > MAX) { setError('Choose a text file smaller than 1 MB.'); return; }
-    try { edit(await file.text(), side); } catch { setError('Unable to read this file. Try pasting the content instead.'); }
+    try { const value = await file.text(); if (generation.current === version) edit(value, side); } catch { if (generation.current === version) setError('Unable to read this file. Try pasting the content instead.'); }
   }
-  function example() { stop(); setError(''); setStatus(''); setResult(null); if (markdown && left !== markdownSample) setHtml(''); setLeft(markdown ? markdownSample : samples[id][0]); setRight(markdown ? '' : samples[id][1]); }
-  function clear() { stop(); setLeft(''); setRight(''); setHtml(''); setResult(null); setError(''); setStatus(''); }
+  function example() { stop(); setError(''); setStatus(''); setResult(null); setWord(null); if (markdown && left !== markdownSample) setHtml(''); setLeft(markdown ? markdownSample : samples[id][0]); setRight(markdown ? '' : samples[id][1]); }
+  function clear() { stop(); setLeft(''); setRight(''); setHtml(''); setResult(null); setWord(null); setError(''); setStatus(''); }
   function process() {
-    stop(); setError(''); setStatus(''); setResult(null);
+    stop(); setError(''); setStatus(''); setResult(null); setWord(null);
     if (id === 'text-diff' ? !left.length && !right.length : !left.trim() || (id === 'json-diff' && !right.trim())) { setError(comparison ? 'Add the content you want to compare. JSON needs valid input on both sides.' : 'Add your content before converting.'); return; }
     setBusy(true);
     try {
       const w = new Worker(new URL('../workers/transform.worker.ts', import.meta.url), { type: 'module' }); worker.current = w;
-      w.onmessage = event => { stop(); if (event.data.error) setError(event.data.error); else { setResult(event.data.result); setStatus(comparison ? 'Comparison ready.' : 'Conversion ready.'); } };
-      w.onerror = () => { stop(); setError('Processing failed. Try a smaller input.'); };
+      w.onmessage = event => { if (worker.current !== w) return; stop(); if (event.data.error) setError(event.data.error); else { setResult(event.data.result); setStatus(comparison ? 'Comparison ready.' : 'Conversion ready.'); } };
+      w.onerror = () => { if (worker.current === w) { stop(); setError('Processing failed. Try a smaller input.'); } };
       timer.current = setTimeout(() => { stop(); setError('This job took too long. Try a smaller or less complex input.'); }, 6000);
       w.postMessage({ id, left, right, whitespace, ignoreCase });
     } catch { stop(); setError('Your browser could not start this tool. Try a current browser.'); }
   }
+  function exportWord() {
+    stop(); setWord(null); setError(''); setStatus('');
+    if (!left.trim()) { setError('Add Markdown before exporting.'); return; }
+    try {
+      setBusy(true); const w = new Worker(new URL('../workers/docx.worker.ts', import.meta.url), { type: 'module' }); worker.current = w;
+      w.onmessage = event => { if (worker.current !== w) return; stop(); if (event.data.error) setError(event.data.error); else { setWord(event.data); setStatus('Your Word document is ready to download.'); } };
+      w.onerror = () => { if (worker.current === w) { stop(); setError('Word export failed. Try a smaller document.'); } };
+      timer.current = setTimeout(() => { stop(); setError('Word export took too long. Export a smaller section.'); }, 30000);
+      w.postMessage({ input: left });
+    } catch { stop(); setError('Your browser could not start Word export. Try an updated browser.'); }
+  }
+  function downloadWord() { if (!word) return; const url = URL.createObjectURL(word.blob); const a = document.createElement('a'); a.href = url; a.download = 'filenest-document.docx'; a.click(); setTimeout(() => URL.revokeObjectURL(url), 10000); }
   async function copy(text: string) { try { await navigator.clipboard.writeText(text); setStatus('Copied to clipboard.'); } catch { setError('Clipboard access is unavailable. Select the result to copy it manually.'); } }
   function printPdf() {
     if (!left.trim()) { setError('Add Markdown before exporting.'); return; }
@@ -83,8 +97,9 @@ export default function Workbench({ id }: { id: ToolId }) {
       {comparison && <div className="editor-panel"><div className="panel-heading"><label htmlFor="input-right">Updated</label><button onClick={() => fileRight.current?.click()}>Open file ↗</button></div><input ref={fileRight} type="file" className="visually-hidden" tabIndex={-1} accept=".txt,.md,.json,.csv,.log" onChange={e => { void loadFile(e.target.files?.[0], 'right'); e.target.value = ''; }} /><textarea id="input-right" value={right} spellCheck={false} onChange={e => edit(e.target.value, 'right')} placeholder="Paste your updated content here…" /><div className="editor-meta">{right.length.toLocaleString()} characters<span>UTF-8 text</span></div></div>}
       {markdown && <div className="editor-panel preview-panel"><div className="panel-heading"><span>Preview</span><button onClick={() => setRaw(!raw)} aria-pressed={raw}>{raw ? 'Rendered view' : 'HTML source'}</button></div>{!hasMarkdown ? <div className="preview-empty"><span>MD →</span><h3>Your document starts here.</h3><p>Add Markdown to see a live preview.<br />Or load an example to explore.</p></div> : raw ? <pre className="source-preview">{html}</pre> : <div className="markdown-preview" dangerouslySetInnerHTML={{ __html: html }} />}</div>}
     </div>
-    <div className="action-row"><div className="options">{id === 'text-diff' ? <><label><input type="checkbox" checked={whitespace} onChange={e => { setWhitespace(e.target.checked); setResult(null); }} /> Ignore edge whitespace</label><label><input type="checkbox" checked={ignoreCase} onChange={e => { setIgnoreCase(e.target.checked); setResult(null); }} /> Ignore case</label></> : <span>{markdown ? 'Live preview · Remote images disabled' : id === 'json-diff' ? 'Key order ignored · Array order preserved' : 'Processed locally · No uploads'}</span>}</div><div className="action-buttons">{markdown ? <><button className="secondary-button" disabled={!hasMarkdown} onClick={() => copy(html)}>Copy HTML</button><button className="primary-button" disabled={!hasMarkdown} onClick={() => id === 'markdown-to-pdf' ? printPdf() : download(htmlDocument(html), 'filenest-document.html', 'text/html')}>{id === 'markdown-to-pdf' ? 'Print / Save PDF' : 'Download HTML'} ↗</button></> : busy ? <button className="secondary-button" onClick={() => { stop(); setStatus('Processing cancelled.'); }}>Cancel processing</button> : <button className="primary-button" onClick={process}>{comparison ? 'Compare changes' : 'Convert file'} ↗</button>}</div></div>
+    <div className="action-row"><div className="options">{id === 'text-diff' ? <><label><input type="checkbox" checked={whitespace} onChange={e => { setWhitespace(e.target.checked); setResult(null); setWord(null); }} /> Ignore edge whitespace</label><label><input type="checkbox" checked={ignoreCase} onChange={e => { setIgnoreCase(e.target.checked); setResult(null); setWord(null); }} /> Ignore case</label></> : <span>{markdown ? 'Live preview · Remote images disabled' : id === 'json-diff' ? 'Key order ignored · Array order preserved' : 'Processed locally · No uploads'}</span>}</div><div className="action-buttons">{id === 'markdown-to-docx' ? <>{busy ? <button key="cancel-word" className="secondary-button" onClick={() => { stop(); setStatus('Processing cancelled.'); }}>Cancel processing</button> : <button key="create-word" className="primary-button" disabled={!hasMarkdown} onClick={exportWord}>Create Word document ↗</button>}{word && <button className="secondary-button" onClick={downloadWord}>Download Word ↗</button>}</> : markdown ? <><button className="secondary-button" disabled={!hasMarkdown} onClick={() => copy(html)}>Copy HTML</button><button className="primary-button" disabled={!hasMarkdown} onClick={() => id === 'markdown-to-pdf' ? printPdf() : download(htmlDocument(html), 'filenest-document.html', 'text/html')}>{id === 'markdown-to-pdf' ? 'Print / Save PDF' : 'Download HTML'} ↗</button></> : busy ? <button className="secondary-button" onClick={() => { stop(); setStatus('Processing cancelled.'); }}>Cancel processing</button> : <button className="primary-button" onClick={process}>{comparison ? 'Compare changes' : 'Convert file'} ↗</button>}</div></div>
     <div aria-live="polite" className="feedback">{error && <p role="alert" className="error-message">{error}</p>}{!error && (busy || status) && <p className="status-message">{busy ? 'Working on your device…' : status}</p>}</div>
+    {word && <section className="result-panel"><div className="panel-heading"><h2>Your Word document</h2><span>{(word.blob.size / 1024).toFixed(1)} KB</span></div>{word.warnings.map(warning => <p className="comparison-summary" key={warning}>{warning}</p>)}</section>}
     {result !== null && <section className="result-panel"><div className="panel-heading"><h2>{comparison ? 'Your changes' : 'Your converted file'}</h2><div><button onClick={() => copy(textResult)}>Copy</button><button onClick={() => download(textResult, id === 'csv-to-json' ? 'converted.json' : id === 'json-to-csv' ? 'converted.csv' : 'comparison.json', id === 'json-to-csv' ? 'text/csv;charset=utf-8' : 'application/json')}>Download ↗</button></div></div>{id === 'text-diff' && Array.isArray(result) ? <div className="diff-result">{(result as Change[]).every(part => !part.added && !part.removed) ? <p className="identical">No differences with these settings.</p> : (result as Change[]).map((part, i) => <pre key={i} className={part.added ? 'added' : part.removed ? 'removed' : ''}><span aria-label={part.added ? 'Added' : part.removed ? 'Removed' : 'Unchanged'}>{part.added ? '+' : part.removed ? '−' : ' '}</span><code>{part.value}</code></pre>)}</div> : id === 'json-diff' && Array.isArray(result) ? result.length === 0 ? <p className="identical">No structural differences. Object key order is ignored.</p> : <div className="json-changes">{(result as JsonChange[]).map((change, i) => <div key={i} className="json-change"><div><span className={`change-label ${change.type}`}>{change.type}</span><code>{change.path}</code></div>{change.type !== 'added' && <pre className="removed">− {JSON.stringify(change.before)}</pre>}{change.type !== 'removed' && <pre className="added">+ {JSON.stringify(change.after)}</pre>}</div>)}</div> : <pre className="data-result">{textResult}</pre>}</section>}
   </div>;
 }
