@@ -1,5 +1,5 @@
 {
-  "name": "filenest",
+  "name": "filepebble",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^7.0.1",
+    "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.3.7",
     "diff": "^9.0.0",
     "docx": "^9.9.0",

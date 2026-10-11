@@ -1,3 +1,8 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
-export default defineConfig({ integrations: [react()], output: 'static' });
+import sitemap from '@astrojs/sitemap';
+export default defineConfig({
+  site: 'https://filepebble.com',
+  integrations: [react(), sitemap()],
+  output: 'static',
+});

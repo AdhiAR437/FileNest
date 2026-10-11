@@ -65,6 +65,6 @@ export function validateSettings(settings: ImageSettings, width: number, height:
 }
 export function imageFilename(name: string, format: ImageFormat) {
   const stem = name.replace(/\.[^.]+$/, '').replace(/[^\p{L}\p{N}_-]/gu, '-').slice(0, 80) || 'image';
-  return `${stem}-filenest.${format === 'image/jpeg' ? 'jpg' : format === 'image/webp' ? 'webp' : 'png'}`;
+  return `${stem}-filepebble.${format === 'image/jpeg' ? 'jpg' : format === 'image/webp' ? 'webp' : 'png'}`;
 }
 export function formatBytes(bytes: number) { return bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(2)} MB` : `${(bytes / 1024).toFixed(1)} KB`; }

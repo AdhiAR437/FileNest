@@ -25,19 +25,19 @@ self.onmessage = async (event: MessageEvent<{ action: 'inspect' | 'process'; mod
         self.postMessage({ progress: `Read image ${i + 1} of ${files.length}.` });
       }
       if (action === 'inspect') self.postMessage({ info });
-      else self.postMessage({ blob: new Blob([checkedOutput(await output.save())], { type: 'application/pdf' }), name: 'images-filenest.pdf' });
+      else self.postMessage({ blob: new Blob([checkedOutput(await output.save())], { type: 'application/pdf' }), name: 'images-filepebble.pdf' });
       return;
     }
     const docs = [];
     for (const file of files) docs.push(await loadPdf(new Uint8Array(await file.arrayBuffer())));
     if (docs.reduce((n, d) => n + d.getPageCount(), 0) > 100) throw new Error('Use up to 100 pages combined.');
     if (action === 'inspect') { self.postMessage({ info: docs.map(doc => ({ count: doc.getPageCount(), pages: doc.getPages().map(p => ({ ...p.getSize(), rotation: p.getRotation().angle })) })) }); return; }
-    if (mode === 'merge') { const output = await mergePdfs(docs); self.postMessage({ blob: new Blob([checkedOutput(await output.save())], { type: 'application/pdf' }), name: 'merged-filenest.pdf' }); }
+    if (mode === 'merge') { const output = await mergePdfs(docs); self.postMessage({ blob: new Blob([checkedOutput(await output.save())], { type: 'application/pdf' }), name: 'merged-filepebble.pdf' }); }
     else if (mode === 'split' && separate) {
       const archive: Record<string, Uint8Array> = {}; let total = 0;
       for (const choice of choices) { const part = await copySelected(docs[0], [choice]); const bytes = checkedOutput(await part.save()); total += bytes.length; if (total > PDF_OUTPUT_LIMIT) throw new Error('This output is too large. Select fewer pages.'); archive[`page-${choice.index + 1}.pdf`] = bytes; }
       if (!choices.length) throw new Error('Select at least one page.');
-      self.postMessage({ blob: new Blob([checkedOutput(zipSync(archive, { level: 0 }))], { type: 'application/zip' }), name: 'split-filenest.zip' });
-    } else { const output = await copySelected(docs[0], choices); self.postMessage({ blob: new Blob([checkedOutput(await output.save())], { type: 'application/pdf' }), name: `${mode}-filenest.pdf` }); }
+      self.postMessage({ blob: new Blob([checkedOutput(zipSync(archive, { level: 0 }))], { type: 'application/zip' }), name: 'split-filepebble.zip' });
+    } else { const output = await copySelected(docs[0], choices); self.postMessage({ blob: new Blob([checkedOutput(await output.save())], { type: 'application/pdf' }), name: `${mode}-filepebble.pdf` }); }
   } catch (e) { self.postMessage({ error: e instanceof Error ? e.message : 'Unable to process this PDF.' }); }
 };

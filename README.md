@@ -1,8 +1,9 @@
-# FileNest
+# FilePebble
 
 Private-first file utilities. A static Astro + React + TypeScript website with browser-local transformations and no backend, accounts, uploaded-file storage, analytics, ads, or paid services in the initial implementation.
 
-Live preview: https://filenest-c0y.pages.dev/
+Production domain: https://filepebble.com/ (requires activation in Cloudflare Pages).
+Deployment preview: https://filenest-c0y.pages.dev/
 
 ## Getting started
 
@@ -59,7 +60,7 @@ Markdown is sanitised with DOMPurify. Remote image/media elements and executable
 
 Build command: `npm run licenses && npm run build`. Output: `dist`. Deploy as static assets to Cloudflare Pages or Workers Static Assets. No server entry point is needed. `public/_headers` provides a starting security-header policy for Cloudflare Pages; configure equivalent response headers when using Workers Static Assets.
 
-The build generates `dist/_headers` with hashes for Astro's inline hydration scripts; use that generated file rather than copying the source header template unchanged. The site currently omits canonical URLs and a sitemap because no final domain has been selected. Add the domain to `astro.config.mjs` and configure a sitemap before public indexing. See [docs/LAUNCH.md](docs/LAUNCH.md).
+The build generates `dist/_headers` with hashes for Astro's inline hydration scripts; use that generated file rather than copying the source header template unchanged. Canonical URLs and the generated sitemap use `https://filepebble.com`. Attach this domain to the existing Pages project and confirm HTTPS is active before submitting `/sitemap-index.xml` to Search Console. See [docs/LAUNCH.md](docs/LAUNCH.md).
 
 ## Repository
 

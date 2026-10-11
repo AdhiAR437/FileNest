@@ -3,7 +3,7 @@
 This is an initial development build, not a claim of public-launch readiness.
 
 1. Confirm the GitHub source and lockfile are up to date.
-2. Select the domain; add `site` in Astro config and install/configure a sitemap integration. Set canonical metadata using the trusted configured site origin.
+2. Domain purchased: `filepebble.com`. The Astro site origin, canonical/social metadata, robots sitemap reference and sitemap integration are configured. In Cloudflare, open Workers & Pages → the existing FileNest Pages project → Custom domains → Set up a domain, enter `filepebble.com`, and follow the activation prompts. Confirm the domain is in the same Cloudflare account, then verify HTTPS and all routes. Add `www.filepebble.com` as a second custom domain if required; redirect it to the apex using a Cloudflare redirect rule. Keep the existing Pages project and GitHub repository connection.
 3. Add owner/contact information and final terms. Review privacy wording for the actual host and any added services.
 4. Choose Cloudflare Pages or Workers Static Assets. Build with `npm run licenses && npm run build` and serve `dist`. Keep transformations browser-local.
 5. Apply response headers. `_headers` is for Pages; Workers Static Assets needs its own equivalent header configuration. Test the policy on the actual deployed site, including Worker loading, clipboard, and printing.

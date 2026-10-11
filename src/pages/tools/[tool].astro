@@ -9,7 +9,7 @@ import { tools } from '../../lib/catalog';
 export function getStaticPaths() { return tools.map(tool => ({ params: { tool: tool.id }, props: { tool } })); }
 const { tool } = Astro.props;
 ---
-<Layout title={`${tool.name} — Free local file tools | FileNest`} description={`${tool.description} Free to use, no signup, and processed locally in your browser.`}>
+<Layout title={`${tool.name} — Free local file tools | FilePebble`} description={`${tool.description} Free to use, no signup, and processed locally in your browser.`}>
   <section class="workbench-page wrap">
     <a href="/#tools" class="back-link">← All tools</a>
     <div class="workbench-heading"><div><div class="eyebrow">{tool.category.toUpperCase()} / PROCESSED LOCALLY</div><h1>{tool.name}</h1><p>{tool.description}</p></div><span class="tool-icon large-icon">{tool.symbol}</span></div>

@@ -1,4 +1,15 @@
-# FileNest build verification
+# FilePebble build verification
+
+## FilePebble domain and branding update — 11 October 2026
+
+- Renamed displayed branding, titles, examples, output filenames and Word creator metadata to FilePebble; the GitHub repository and Pages project remain connected under their existing names.
+- Configured `https://filepebble.com` as the trusted site origin, with canonical and social metadata on all 23 pages.
+- Generated a sitemap covering exactly the 23 built pages; verified sitemap/robots discovery and build-specific CSP script hashes.
+- All 61 tests passed; Astro diagnostics reported zero errors, warnings and hints; production build succeeded.
+- Chromium checks passed for directory search/filter, comparison/conversion workers, errors, HTML downloads, Markdown sanitisation, print workflow, mobile overflow and no page errors/external requests. The renamed mobile header was visually inspected at 390px.
+- Domain purchase is user-confirmed. Cloudflare custom-domain activation and HTTPS must be checked after the owner completes the dashboard setup.
+
+## Previous tool release
 
 Verified on 8 October 2026.
 

@@ -1,4 +1,4 @@
-# FileNest development roadmap
+# FilePebble development roadmap
 
 ## Phase 1 — Foundation and first tools
 
@@ -11,7 +11,9 @@
 - [x] Automated transformation tests and GitHub Actions configuration.
 - [x] Generated dependency licence notices.
 - [x] Publish the verified starter source to AdhiAR437/FileNest.
-- [ ] Add final domain, sitemap, canonical metadata, operator contact, and final terms.
+- [x] Configure FilePebble branding, filepebble.com canonical metadata, and generated sitemap.
+- [ ] Activate the purchased domain in Cloudflare Pages and verify HTTPS.
+- [ ] Add operator contact and final terms.
 - [x] Initial Cloudflare Pages deployment and basic verification at https://filenest-c0y.pages.dev/.
 
 ## Phase 2 — Images

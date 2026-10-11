@@ -74,8 +74,8 @@ export default function PdfWorkbench({ mode }: { mode: PdfMode }) {
           await new Promise(resolve => setTimeout(resolve, 0));
         }
         if (!controller.signal.aborted) {
-          if (mode === 'render') { setResult({ blob: new Blob([checkedOutput(zipSync(archive, { level: 0 }))], { type: 'application/zip' }), name: 'pdf-images-filenest.zip' }); if (firstPreview) setPreview({ url: URL.createObjectURL(firstPreview), label: 'First exported page' }); }
-          else { const hasText = text.replace(/--- Page \d+ ---/g, '').trim().length > 0; setResult({ blob: new Blob([text], { type: 'text/plain;charset=utf-8' }), name: 'pdf-text-filenest.txt', text }); if (!hasText) setStatus('No selectable text found. This PDF may be scanned; OCR is not included.'); }
+          if (mode === 'render') { setResult({ blob: new Blob([checkedOutput(zipSync(archive, { level: 0 }))], { type: 'application/zip' }), name: 'pdf-images-filepebble.zip' }); if (firstPreview) setPreview({ url: URL.createObjectURL(firstPreview), label: 'First exported page' }); }
+          else { const hasText = text.replace(/--- Page \d+ ---/g, '').trim().length > 0; setResult({ blob: new Blob([text], { type: 'text/plain;charset=utf-8' }), name: 'pdf-text-filepebble.txt', text }); if (!hasText) setStatus('No selectable text found. This PDF may be scanned; OCR is not included.'); }
           if (mode === 'render' || text.replace(/--- Page \d+ ---/g, '').trim()) setStatus('Your file is ready to download.');
         }
       }

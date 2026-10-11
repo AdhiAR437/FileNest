@@ -25,5 +25,5 @@ describe('Image output limits', () => {
   it('rejects crops outside the source image', () => { expect(() => validateSettings({ ...settings, crop: { x: 50, y: 0, width: 40, height: 40 } }, 80, 40)).toThrow('crop'); expect(() => validateSettings({ ...settings, crop: { x: -1, y: 0, width: 40, height: 40 } }, 80, 40)).toThrow('crop'); });
   it('rejects invalid quality and unusable compression targets', () => { expect(() => validateSettings({ ...settings, quality: NaN }, 80, 40)).toThrow(); expect(() => validateSettings({ ...settings, targetBytes: 2048 }, 80, 40)).toThrow('target'); expect(() => validateSettings({ ...settings, format: 'image/jpeg', targetBytes: NaN }, 80, 40)).toThrow('target'); });
   it('accepts a valid crop and JPG target', () => expect(() => validateSettings({ ...settings, format: 'image/jpeg', targetBytes: 2048, crop: { x: 0, y: 0, width: 40, height: 40 } }, 80, 40)).not.toThrow());
-  it('uses the encoded format for safe download names', () => { expect(imageFilename('photo.PNG', 'image/jpeg')).toBe('photo-filenest.jpg'); expect(imageFilename('../../fake.png', 'image/webp')).not.toContain('/'); });
+  it('uses the encoded format for safe download names', () => { expect(imageFilename('photo.PNG', 'image/jpeg')).toBe('photo-filepebble.jpg'); expect(imageFilename('../../fake.png', 'image/webp')).not.toContain('/'); });
 });
