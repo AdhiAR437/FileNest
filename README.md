@@ -2,7 +2,7 @@
 
 Private-first file utilities. A static Astro + React + TypeScript website with browser-local transformations and no backend, accounts, uploaded-file storage, analytics, ads, or paid services in the initial implementation.
 
-Production domain: https://filepebble.com/ (requires activation in Cloudflare Pages).
+Production domain: https://filepebble.com/ (verified over HTTPS on 11 October 2026).
 Deployment preview: https://filenest-c0y.pages.dev/
 
 ## Getting started
@@ -80,3 +80,9 @@ The `.github/workflows/ci.yml` pipeline checks types, transformation tests, gene
 Application source is reserved for its owner; see `LICENSE`. Open-source dependencies retain their own licences. `npm run licenses` generates version-specific installed production dependency notices in `src/data/licenses.json`, served at `/licenses`. New engines, fonts, codecs, and dependencies must be reviewed separately. Word export uses the MIT-licensed docx library. PDF generation/page operations use MIT-licensed pdf-lib; rendering and text extraction use Apache-2.0 PDF.js; ZIP outputs use MIT-licensed fflate. PDF.js fonts, character maps and decoder assets (with their bundled notices) are copied locally during dev/build, with no CDN requests.
 
 See [docs/ROADMAP.md](docs/ROADMAP.md) for the development phases.
+
+## Search and support
+
+Every tool has an original use case, example and FAQ. Contact and terms pages are included in the sitemap. Support currently uses the public GitHub project; no email or contact form is configured.
+
+Optional production build variables: PUBLIC_GOOGLE_SITE_VERIFICATION (Search Console HTML-tag content token, for URL-prefix verification) and PUBLIC_GOOGLE_ADSENSE_ACCOUNT (the actual ca-pub- account ID). Empty values emit no tags. These are public metadata and do not enable analytics or ads. Invalid formats fail the build. For Domain property verification, use the Google-issued DNS TXT record instead. See [docs/SEARCH-AND-ADS.md](docs/SEARCH-AND-ADS.md) for setup and the separate work needed to serve ads.

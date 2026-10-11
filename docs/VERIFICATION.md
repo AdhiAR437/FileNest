@@ -1,5 +1,15 @@
 # FilePebble build verification
 
+## Launch content and verification setup — 11 October 2026
+
+- Added contact and terms pages, maintainer identification and public GitHub support; updated Cloudflare/privacy wording and footer navigation.
+- Added original use cases, examples and three FAQs for every tool: 19 guides and 57 FAQs.
+- All 61 transformation tests passed; Astro diagnostics reported zero errors, warnings and hints; production build generates 25 pages and an exact 25-page sitemap.
+- Verified canonical URLs, support/terms navigation on every page, CSP script hashes and absence of placeholder Google verification tags.
+- Chromium checked contact/terms/privacy, all 19 tool guides, FAQ keyboard/click behaviour, the CSV conversion worker and 320px/390px layouts. No page errors or third-party requests; desktop/mobile guides and desktop contact layout visually inspected.
+- Separate QA builds verified valid Search Console/AdSense metadata values emit exact tags without ad scripts, and malformed values fail the build. QA tokens are not in the production output.
+- Search Console ownership verification and sitemap submission still require the owner's Google account/DNS record. AdSense review requires the owner's account; ad serving and consent implementation are not active.
+
 ## FilePebble domain and branding update — 11 October 2026
 
 - Renamed displayed branding, titles, examples, output filenames and Word creator metadata to FilePebble; the GitHub repository and Pages project remain connected under their existing names.

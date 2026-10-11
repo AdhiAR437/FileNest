@@ -1,4 +1,4 @@
-name: Verify FileNest
+name: Verify FilePebble
 on: [push, pull_request]
 permissions:
   contents: read

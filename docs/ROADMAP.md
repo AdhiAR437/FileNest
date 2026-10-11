@@ -12,8 +12,8 @@
 - [x] Generated dependency licence notices.
 - [x] Publish the verified starter source to AdhiAR437/FileNest.
 - [x] Configure FilePebble branding, filepebble.com canonical metadata, and generated sitemap.
-- [ ] Activate the purchased domain in Cloudflare Pages and verify HTTPS.
-- [ ] Add operator contact and final terms.
+- [x] Activate the purchased domain in Cloudflare Pages and verify HTTPS.
+- [x] Add maintainer identification, public GitHub support contact, and terms of use.
 - [x] Initial Cloudflare Pages deployment and basic verification at https://filenest-c0y.pages.dev/.
 
 ## Phase 2 — Images
@@ -33,7 +33,10 @@
 
 ## Phase 4 — Audience and revenue
 
-- Search Console; unique instructions and representative examples for tool pages.
+- [x] Original use cases, worked examples and FAQs for all 19 tool pages.
+- [x] Document Search Console and AdSense setup; optional verification metadata hooks.
+- [ ] Owner verifies Search Console and submits the sitemap.
+- [ ] Owner submits the site for AdSense review; ad serving still needs implementation.
 - Privacy-reviewed analytics for aggregate tool outcomes, never file contents.
 - User validation, completion rates, search impressions, and failure-rate tracking.
 - Ad network approval, privacy/consent work, and advertising only after a useful launch.
