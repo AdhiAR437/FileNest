@@ -7,11 +7,13 @@ import ImageCompare from '../../components/ImageCompare';
 import PdfWorkbench from '../../components/PdfWorkbench';
 import { tools } from '../../lib/catalog';
 import { toolGuides } from '../../lib/tool-guides';
+import { toolSeo } from '../../lib/tool-seo';
 export function getStaticPaths() { return tools.map(tool => ({ params: { tool: tool.id }, props: { tool } })); }
 const { tool } = Astro.props;
 const guide = toolGuides[tool.id];
+const seo = toolSeo[tool.id];
 ---
-<Layout title={`${tool.name} — Free local file tools | FilePebble`} description={`${tool.description} Free to use, no signup, and processed locally in your browser.`}>
+<Layout title={seo.title} description={seo.description}>
   <section class="workbench-page wrap">
     <a href="/#tools" class="back-link">← All tools</a>
     <div class="workbench-heading"><div><div class="eyebrow">{tool.category.toUpperCase()} / PROCESSED LOCALLY</div><h1>{tool.name}</h1><p>{tool.description}</p></div><span class="tool-icon large-icon">{tool.symbol}</span></div>
