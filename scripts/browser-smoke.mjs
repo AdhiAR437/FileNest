@@ -14,15 +14,17 @@ const names = [
   'images-to-pdf', 'merge-pdf', 'split-pdf', 'organise-pdf', 'pdf-to-images', 'pdf-to-text',
 ];
 const failures = [];
-const server = spawn('npm', ['run', 'preview', '--', '--host', '127.0.0.1', '--port', '4321'], { stdio: 'ignore' });
+const server = spawn('npm', ['run', 'preview', '--', '--host', '127.0.0.1', '--port', '4321'], { stdio: ['ignore', 'pipe', 'pipe'] });
+let serverOutput = '';
+for (const stream of [server.stdout, server.stderr]) stream.on('data', data => { serverOutput += data.toString(); process.stderr.write(data.toString()); });
 let browser;
 async function waitForServer() {
-  for (let attempt = 0; attempt < 50; attempt++) {
+  for (let attempt = 0; attempt < 150; attempt++) {
     try { const response = await fetch(base); if (response.ok) return; } catch {}
-    if (server.exitCode !== null) throw new Error('Preview server exited early');
+    if (server.exitCode !== null) throw new Error('Preview server exited early: ' + serverOutput);
     await delay(200);
   }
-  throw new Error('Preview server did not start');
+  throw new Error('Preview server did not start: ' + serverOutput);
 }
 async function downloadFrom(page, action, suffix) {
   const next = page.waitForEvent('download', { timeout: 15000 });
