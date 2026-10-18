@@ -6,7 +6,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright';
 import { PDFDocument } from 'pdf-lib';
 
-const base = 'http://127.0.0.1:4321';
+const base = 'http://localhost:4321';
 const names = [
   'markdown-to-pdf', 'markdown-to-html', 'markdown-to-docx', 'text-diff', 'json-diff',
   'csv-to-json', 'json-to-csv', 'csv-diff', 'json-formatter',
@@ -14,7 +14,7 @@ const names = [
   'images-to-pdf', 'merge-pdf', 'split-pdf', 'organise-pdf', 'pdf-to-images', 'pdf-to-text',
 ];
 const failures = [];
-const server = spawn('npm', ['run', 'preview', '--', '--host', '127.0.0.1', '--port', '4321'], { stdio: ['ignore', 'pipe', 'pipe'] });
+const server = spawn('node_modules/.bin/astro', ['preview', '--host', 'localhost', '--port', '4321'], { stdio: ['ignore', 'pipe', 'pipe'] });
 let serverOutput = '';
 for (const stream of [server.stdout, server.stderr]) stream.on('data', data => { serverOutput += data.toString(); process.stderr.write(data.toString()); });
 let browser;
