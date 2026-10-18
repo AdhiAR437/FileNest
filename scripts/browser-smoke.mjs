@@ -96,7 +96,7 @@ try {
   const doc = await PDFDocument.create();
   doc.addPage([240, 320]);
   const pdf = Buffer.from(await doc.save());
-  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAFAAAAAoCAYAAABpYH0BAAAAf0lEQVR4nO3QsRFAQAAAQa8WgSKUrwiBXuhAcgFmdiu4uXGu2zV92HLs4+2GJ/PbAX9nYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgdAOR6QRQqsKy5AAAAABJRU5ErkJggg==', 'base64');
+  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAFAAAAAoCAYAAABpYH0BAAAAc0lEQVR4nO3QQQ3AIADAQIZ+hM3V8EAfZMmdgqbPWO83ODZvB/ydgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGB0QabOAKjjNFEwQAAAABJRU5ErkJggg==', 'base64');
   for (const id of names) {
     const context = await browser.newContext({ acceptDownloads: true });
     const page = await context.newPage();
