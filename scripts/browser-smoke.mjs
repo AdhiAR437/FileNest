@@ -96,7 +96,19 @@ try {
   const doc = await PDFDocument.create();
   doc.addPage([240, 320]);
   const pdf = Buffer.from(await doc.save());
-  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAFAAAAAoCAYAAABpYH0BAAAAc0lEQVR4nO3QQQ3AIADAQIZ+hM3V8EAfZMmdgqbPWO83ODZvB/ydgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGBkYGRgZGB0QabOAKjjNFEwQAAAABJRU5ErkJggg==', 'base64');
+  // Let Chromium create a standards-compliant PNG instead of relying on opaque base64 test fixtures.
+  const fixturePage = await browser.newPage();
+  const pngBytes = await fixturePage.evaluate(async () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 80; canvas.height = 40;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#0088cc';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    return Array.from(new Uint8Array(await blob.arrayBuffer()));
+  });
+  await fixturePage.close();
+  const png = Buffer.from(pngBytes);
   for (const id of names) {
     const context = await browser.newContext({ acceptDownloads: true });
     const page = await context.newPage();
