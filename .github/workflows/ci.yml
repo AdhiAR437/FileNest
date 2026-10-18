@@ -16,3 +16,6 @@ jobs:
       - run: npm test
       - run: npm run licenses
       - run: npm run build
+      - run: npm install --no-save playwright
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/browser-smoke.mjs
