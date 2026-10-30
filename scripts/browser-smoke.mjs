@@ -124,8 +124,14 @@ try {
       await page.locator('#nav-tool-menu summary').click();
       await page.locator('.tools-dropdown a[href="/tools/merge-pdf/"]').waitFor();
       assert.equal(await page.locator('.dropdown-group').count(), 5, 'Expected five grouped navigation sections');
-      const viewportWidth = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-      assert(viewportWidth <= 2, 'Navigation creates horizontal scrolling');
+      const overflow = await page.evaluate(() => ({
+        extra: document.documentElement.scrollWidth - window.innerWidth,
+        offenders: [...document.querySelectorAll('body *')].filter(element => {
+          const rect = element.getBoundingClientRect();
+          return rect.right > innerWidth + 3 || rect.left < -3;
+        }).slice(0, 5).map(element => ({ tag: element.tagName, className: typeof element.className === 'string' ? element.className : '', right: Math.round(element.getBoundingClientRect().right) })),
+      }));
+      assert(overflow.extra <= 2, 'Horizontal scrolling: ' + JSON.stringify(overflow));
       await page.locator('.tools-dropdown a[href="/categories/compare/"]').click();
       await page.locator('.category-list .tool-card').first().waitFor();
       assert.equal(await page.locator('.category-list .tool-card').count(), 4);
