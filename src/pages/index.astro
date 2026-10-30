@@ -25,6 +25,10 @@ import { tools } from '../lib/catalog';
     <div class="tool-grid">{tools.map(tool => <a class="tool-card" href={`/tools/${tool.id}`} data-category={tool.category} data-search={`${tool.name} ${tool.description} ${tool.category}`}><div class="card-top"><span class:list={['tool-icon', tool.category.toLowerCase()]}>{tool.symbol}</span><span class="card-arrow">↗</span></div><h3>{tool.name}</h3><p>{tool.description}</p><div class="card-bottom"><span>{tool.input}<b>→</b>{tool.output}</span><span class="local-tag"><i></i> LOCAL</span></div></a>)}</div>
     <p id="no-results" class="empty-search" hidden>No tools match that search. Try “Markdown”, “JSON”, or “compare”.</p>
   </section>
+  <section class="featured-guide wrap" aria-labelledby="guide-csv">
+    <div><div class="eyebrow">LEARN BY EXAMPLE</div><h2 id="guide-csv">Compare CSV exports without false differences</h2><p>Records can move between exports without actually changing. Follow a real before-and-after example to compare by ID, find edited cells, and recognise added and removed rows.</p></div>
+    <a href="/guides/compare-csv-files-by-id/">Read the CSV comparison guide ↗</a>
+  </section>
   <section class="values-strip wrap"><div><span>01</span><h3>Your device does the work.</h3><p>File contents stay in your browser. No uploads required.</p></div><div><span>02</span><h3>Straight to the useful part.</h3><p>No registration, email gates, or waiting in a conversion queue.</p></div><div><span>03</span><h3>A growing little toolkit.</h3><p>Image tools and PDF essentials are here. <a href="/about">See the roadmap ↗</a></p></div></section>
 </Layout>
 <script>
@@ -52,3 +56,11 @@ import { tools } from '../lib/catalog';
     if (event.key === '/' && !(event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement)) { event.preventDefault(); input.focus(); }
   });
 </script>
+
+<style>
+  .featured-guide{display:flex;align-items:center;justify-content:space-between;gap:28px;padding-top:38px;padding-bottom:38px;border-top:1px solid var(--border)}
+  .featured-guide h2{font-size:22px;font-weight:500;letter-spacing:-.5px;margin:11px 0}
+  .featured-guide p{font-size:13px;line-height:1.8;color:var(--muted);max-width:610px;margin:0}
+  .featured-guide>a{font-size:12px;color:var(--accent);text-decoration:underline;text-underline-offset:3px;flex-shrink:0}
+  @media(max-width:650px){.featured-guide{display:block;padding-top:30px;padding-bottom:30px}.featured-guide>a{display:inline-block;margin-top:18px}}
+</style>

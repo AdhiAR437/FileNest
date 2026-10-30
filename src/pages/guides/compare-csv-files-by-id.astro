@@ -1,0 +1,64 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout
+  title="How to Compare CSV Files by ID (With Examples) | FilePebble"
+  description="Compare two CSV exports by a unique ID instead of row order. Follow a worked example showing changed, added and removed records, common errors and safe spreadsheet handling."
+>
+  <article class="prose-page wrap">
+    <a href="/tools/csv-diff/">← CSV comparison tool</a>
+    <div class="eyebrow">FILEPEBBLE GUIDES / DATA</div>
+    <h1>How to compare two CSV files by ID instead of row order</h1>
+    <p><strong>Last reviewed: <time datetime="2026-10-30">30 October 2026</time>.</strong> Two exports can contain the same records in different orders. A line-by-line comparison will report many apparent changes even when only one value actually changed. Match each record by a stable ID to find the differences that matter.</p>
+    <p>This walkthrough uses FilePebble's <a href="/tools/csv-diff/">CSV comparison tool</a>, which processes the CSV text in your browser and can export a JSON report. You can follow the method with other CSV comparison software too.</p>
+
+    <h2>1. Start with two small exports</h2>
+    <p>Imagine comparing yesterday's customer export against today's. The updated export has been sorted differently, one city was corrected, one customer disappeared and one was added.</p>
+    <h3>Original CSV</h3>
+    <pre><code>id,name,city,plan
+001,Asha,Mangaluru,basic
+002,Ravi,Udupi,pro
+003,Maya,Karwar,basic</code></pre>
+    <h3>Updated CSV</h3>
+    <pre><code>id,name,city,plan
+002,Ravi,Manipal,pro
+001,Asha,Mangaluru,basic
+004,Neha,Goa,basic</code></pre>
+    <p>Notice that <code>001</code> has moved from the first data row to the second. That move should not count as a changed customer. Also notice that <code>001</code> includes leading zeros; exporting or opening the CSV through a spreadsheet can accidentally remove them if the ID column is interpreted as a number.</p>
+
+    <h2>2. Choose a unique key column</h2>
+    <p>Open <a href="/tools/csv-diff/">Compare CSV files</a>. Paste the original text on the left and the updated text on the right, or open the two local CSV files. In the <strong>Key column</strong> input, enter <code>id</code> and select <strong>Compare CSV</strong>.</p>
+    <p>A useful key appears in both files and identifies one record uniquely within each file. An internal customer ID or invoice ID is usually more reliable than a person's name. The current FilePebble tool requires non-empty, unique key values and matches keys exactly, including case and whitespace.</p>
+    <p>If you leave the key input blank, FilePebble compares data rows by position. That is useful when row position itself is meaningful, but it is misleading for exports that reorder the same records.</p>
+
+    <h2>3. Understand the actual differences</h2>
+    <p>With <code>id</code> selected, the example contains one changed record, one removed record, one added record and one unchanged record.</p>
+    <ul>
+      <li><strong>Changed:</strong> ID <code>002</code> changes its city from <code>Udupi</code> to <code>Manipal</code>.</li>
+      <li><strong>Removed:</strong> ID <code>003</code> exists only in the original export.</li>
+      <li><strong>Added:</strong> ID <code>004</code> exists only in the updated export.</li>
+      <li><strong>Unchanged:</strong> ID <code>001</code> has identical values despite moving to another row.</li>
+    </ul>
+    <p>The on-screen preview shows a limited number of changed rows for readability. Use <strong>Download result</strong> to retain the complete JSON report. It is a report of differences, not a merged or corrected CSV.</p>
+
+    <h2>4. Avoid the most common CSV comparison mistakes</h2>
+    <ul>
+      <li><strong>Duplicate keys:</strong> Two records with the same ID make it ambiguous which records should match. Fix the source export or choose a genuinely unique field.</li>
+      <li><strong>Missing keys:</strong> A blank ID will be rejected in key-matching mode. Do not silently invent IDs just to make the comparison run.</li>
+      <li><strong>Changed formatting:</strong> <code>001</code> and <code>1</code> are different keys. Import ID columns as text when working in Excel or similar software.</li>
+      <li><strong>Moved columns:</strong> FilePebble matches fields by header name, so changing the order of columns does not by itself imply changed cells. Added and removed columns are reported separately.</li>
+      <li><strong>Quoted commas:</strong> A cell such as <code>"Mangaluru, Karnataka"</code> must be quoted in a CSV export. Otherwise the comma can be read as a column separator.</li>
+      <li><strong>Whitespace and case:</strong> Optional settings can ignore edge whitespace or letter case in compared cell values; they do <em>not</em> change how keys match.</li>
+    </ul>
+
+    <h2>5. Check the report before acting on it</h2>
+    <p>A changed row is a signal to investigate, not automatic proof of a data error. For example, a city correction may be intended, while a removed record could be due to a filter in the second export. Review how each file was produced and whether it covers the same time period and columns.</p>
+    <p>If you plan to share a report containing customer information, review what it includes first. FilePebble runs the comparison locally in your browser, but the downloaded JSON file still contains values from your inputs and should be handled appropriately.</p>
+
+    <h2>What the tool does not do</h2>
+    <p>The CSV comparison tool does not read Excel <code>.xlsx</code> workbooks, infer a key automatically, perform a database join, or reconcile conflicting records. Export a real CSV or TSV first. Current limits are 1 MB, 10,000 data rows and 100 columns per input; the screen shows up to 200 changed rows, while the JSON report contains the full comparison within supported limits.</p>
+
+    <h2>Try it with your exports</h2>
+    <p><a href="/tools/csv-diff/">Open FilePebble's CSV comparison tool</a> and use the sample rows above to confirm the result before trying your own files. For format changes rather than comparing exports, see <a href="/tools/csv-to-json/">CSV to JSON</a> or <a href="/tools/json-to-csv/">JSON to CSV</a>.</p>
+  </article>
+</Layout>
