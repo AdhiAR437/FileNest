@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev --host 0.0.0.0",
-    "build": "astro build && node scripts/check-sitemap.mjs && node scripts/security-headers.mjs",
+    "build": "astro build && node scripts/check-sitemap.mjs && node scripts/check-internal-links.mjs && node scripts/security-headers.mjs",
     "preview": "astro preview --host 0.0.0.0",
     "check": "astro check",
     "test": "vitest run",
