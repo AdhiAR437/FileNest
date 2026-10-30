@@ -1,0 +1,60 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { categories } from '../../lib/categories';
+import { tools } from '../../lib/catalog';
+import { guides, guideHref } from '../../lib/guides';
+
+export function getStaticPaths() {
+  return categories.map(category => ({ params: { category: category.slug }, props: { category } }));
+}
+
+const { category } = Astro.props;
+const matches = category.featured.map(id => tools.find(tool => tool.id === id)).filter(Boolean);
+const relatedGuides = guides.filter(guide => matches.some(tool => tool.id === guide.toolId));
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: category.title,
+  description: category.description,
+  url: `https://filepebble.com/categories/${category.slug}/`,
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: matches.map((tool, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: tool.name,
+      url: `https://filepebble.com/tools/${tool.id}/`,
+    })),
+  },
+};
+---
+<Layout title={`${category.title} | FilePebble`} description={category.description} schema={schema}>
+  <div class="category-page wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/#tool-groups">Tool groups</a><span aria-hidden="true">/</span><span aria-current="page">{category.name}</span></nav>
+    <header class="category-hero">
+      <div><div class="eyebrow">{category.name.toUpperCase()} TOOLS · FILEPEBBLE</div>
+        <h1>{category.title}</h1><p class="category-lead">{category.lead}</p>
+        <p>{category.introduction}</p></div>
+      <div class="category-emblem" aria-hidden="true"><span>{category.icon}</span><small>{matches.length} TOOLS</small></div>
+    </header>
+    <section class="category-list" aria-labelledby="category-tools-heading">
+      <div class="section-top"><div class="eyebrow">START HERE</div><h2 id="category-tools-heading">Choose a tool for your task</h2></div>
+      <div class="tool-grid">
+        {matches.map(tool => <a class="tool-card" href={`/tools/${tool.id}/`}>
+          <div class="card-top"><span class:list={['tool-icon', tool.category.toLowerCase()]}>{tool.symbol}</span><span class="card-arrow">↗</span></div>
+          <h3>{tool.name}</h3><p>{tool.description}</p>
+          <div class="card-bottom"><span>{tool.input} → {tool.output}</span><span class="local-tag"><i></i> LOCAL</span></div>
+        </a>)}
+      </div>
+    </section>
+    <section class="category-explainer" aria-label="How to choose and use these tools">
+      <div><div class="eyebrow">WHICH TOOL?</div><h2>Choose the right workflow</h2><p>{category.choosing}</p></div>
+      <div><div class="eyebrow">BEFORE YOU EXPORT</div><h2>Useful checks and limitations</h2><p>{category.tips}</p></div>
+    </section>
+    {relatedGuides.length > 0 && <section class="category-reading">
+      <div class="eyebrow">LEARN BY DOING</div><h2>Guides for {category.name.toLowerCase()} workflows</h2>
+      <div class="category-guide-list">{relatedGuides.map(guide => <a href={guideHref(guide.slug)}><strong>{guide.title}</strong><span>{guide.description}</span><span aria-hidden="true">↗</span></a>)}</div>
+    </section>}
+    <nav class="other-categories" aria-label="Other tool categories"><span>Explore more:</span>{categories.filter(other => other.slug !== category.slug).map(other => <a href={`/categories/${other.slug}/`}>{other.name} ↗</a>)}</nav>
+  </div>
+</Layout>
