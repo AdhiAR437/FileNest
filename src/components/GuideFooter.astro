@@ -1,0 +1,19 @@
+---
+import { guides, guideHref } from '../lib/guides';
+import { tools } from '../lib/catalog';
+const { slug, toolId } = Astro.props;
+const tool = tools.find(item => item.id === toolId);
+const related = guides.filter(guide => guide.slug !== slug && (guide.toolId === toolId || guide.category === guides.find(item => item.slug === slug)?.category)).slice(0, 3);
+---
+<section aria-labelledby="guide-next" class="guide-next">
+  <h2 id="guide-next">Put it into practice</h2>
+  <p>Try the steps with a small sample before processing important files. Keep an original copy and review exported results.</p>
+  <p>{tool && <a href={`/tools/${tool.id}/`}>Open {tool.name} ↗</a>} · <a href="/guides/">Browse all FilePebble guides</a></p>
+  {related.length > 0 && <div class="guide-related"><h3>Related reading</h3><ul>{related.map(guide => <li><a href={guideHref(guide.slug)}>{guide.title}</a></li>)}</ul></div>}
+</section>
+<style>
+  .guide-next{border-top:1px solid var(--border);margin-top:42px;padding-top:22px}
+  .guide-next>p a,.guide-related a{text-decoration:underline;text-underline-offset:3px}
+  .guide-related{margin-top:24px}
+  .guide-related h3{font-size:15px;font-weight:600}
+</style>
