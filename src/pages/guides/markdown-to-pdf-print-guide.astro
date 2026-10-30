@@ -1,0 +1,56 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import GuideFooter from '../../components/GuideFooter.astro';
+---
+<Layout title="How to Convert Markdown to PDF Using Print | FilePebble" description="Prepare Markdown notes as a printable PDF in your browser. Includes a sample document, layout checks, print settings and limits of the preview.">
+  <article class="prose-page wrap">
+    <a href="/guides/">← All guides</a>
+    <div class="eyebrow">PRACTICAL GUIDE / MARKDOWN</div>
+    <h1>How to turn Markdown notes into a printable PDF</h1>
+    <p><strong>Last reviewed: <time datetime="2026-10-30">30 October 2026</time>.</strong> Markdown is a fast way to write structured notes with headings, lists, tables and code. A PDF is often better for a handout that readers should view or print without a Markdown editor. FilePebble uses your browser's <strong>Print / Save PDF</strong> workflow, not a server-side file-conversion service.</p>
+
+    <h2>Start with a short example</h2>
+    <p>Paste this Markdown into <a href="/tools/markdown-to-pdf/">Markdown to PDF</a> to create a simple one-page-style meeting summary:</p>
+    <pre><code># Project handout
+
+## Completed
+- Reviewed the latest changes
+- Prepared the handoff notes
+
+## Next steps
+1. Collect feedback
+2. Confirm the release date
+
+**Owner:** Project team</code></pre>
+    <p>The live preview should show a large title, smaller headings, a bullet list, a numbered list and bold owner text. The raw Markdown symbols should not appear as literal characters in the formatted document.</p>
+
+    <h2>Step 1: Paste or open Markdown</h2>
+    <p>Open <a href="/tools/markdown-to-pdf/">the PDF tool</a> and paste your text into the editor, or open a local <code>.md</code> or <code>.txt</code> file. Check the preview alongside it. If a heading looks like plain text, make sure there is a space after the <code>#</code> marker. For a numbered list, start a line with <code>1.</code> followed by a space.</p>
+    <p>Supported Markdown includes common headings, text emphasis, lists, code blocks and tables. FilePebble sanitizes rendered content. Remote images and embedded content are disabled, so a Markdown image link should not be relied on to insert a picture into the PDF.</p>
+
+    <h2>Step 2: Review wide content before printing</h2>
+    <p>Code snippets and tables can be wider than a portrait sheet. Check the right edge of the preview, then shorten long columns, simplify a table or split a long code line. Even if content fits the screen, the printed page can have different margins and line wraps.</p>
+    <p>For notes with multiple sections, add concise headings rather than forcing manual spaces or blank lines. Markdown is intended to describe structure; the browser ultimately controls pagination and print layout.</p>
+
+    <h2>Step 3: Choose Print / Save PDF</h2>
+    <p>Click <strong>Print / Save PDF</strong>. In the operating system or browser print dialog, choose <strong>Save as PDF</strong> when available instead of a physical printer. Inspect the print preview, select a suitable paper size and orientation, then save the file.</p>
+    <p>The print dialog controls output settings and filename. If a wide table is clipped in portrait mode, try landscape orientation or simplify the input. Page numbers, browser headers/footers and background graphics are printer-specific settings rather than controls provided by the Markdown converter.</p>
+
+    <h2>Step 4: Open and check the exported PDF</h2>
+    <p>Before sending the file, open it and check the first and last pages, code wrapping, line breaks and table borders. This catches cases where the HTML preview and print output differ. If a table breaks awkwardly across pages, reduce its width or divide it into smaller sections.</p>
+
+    <h2>Common problems</h2>
+    <ul>
+      <li><strong>No direct PDF file appears:</strong> the tool opens a print dialog. You must select your system's PDF destination and save.</li>
+      <li><strong>PDF layout differs from the preview:</strong> browsers, paper sizes, margins and fonts can change pagination.</li>
+      <li><strong>Images or rich embeds are missing:</strong> remote images and embedded media are deliberately disabled.</li>
+      <li><strong>Markdown looks unformatted:</strong> check heading markers, blank lines and code fences in your source.</li>
+      <li><strong>Need an editable Word file instead?</strong> Use <a href="/tools/markdown-to-docx/">Markdown to Word</a>. DOCX output is editable, but pagination can still differ.</li>
+    </ul>
+
+    <h2>When to choose HTML instead</h2>
+    <p>If the destination is a webpage, email template or reusable document fragment, <a href="/tools/markdown-to-html/">Markdown to HTML</a> can export a standalone HTML document or a sanitized content fragment. A PDF is the better fit when readers need a fixed, printable snapshot. Neither choice changes the original Markdown file; keep the source for future edits.</p>
+    <p>FilePebble processes this Markdown locally in your browser. Downloading the finished file stores it on your device; sharing it later is a separate action under your control.</p>
+    <GuideFooter slug="markdown-to-pdf-print-guide" toolId="markdown-to-pdf" />
+  </article>
+</Layout>
