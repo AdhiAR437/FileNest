@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { tools } from '../lib/catalog';
+import { guides, guideHref } from '../lib/guides';
 ---
 <Layout title="Free Online PDF, Image, Markdown & JSON Tools | FilePebble" description="Free online tools to merge and split PDFs, convert and compress images, compare text, format JSON, and convert Markdown. No signup; files processed in your browser.">
   <section class="hero wrap">
@@ -15,21 +16,32 @@ import { tools } from '../lib/catalog';
       <div class="preview-top"><span><i></i> A LITTLE CHANGE, CLEARLY SEEN</span><span>01 / {String(tools.length).padStart(2, '0')}</span></div>
       <div class="demo-title"><span class="demo-icon">±</span><div><strong>Text comparison</strong><small>Find what changed. Keep what matters.</small></div></div>
       <div class="demo-code"><div class="demo-label"><span>ORIGINAL → UPDATED</span><span>example.txt</span></div><div><b>01</b><code># A better way to work</code></div><div class="removed"><b>02</b><code>− Upload your files to a server.</code></div><div class="added"><b>02</b><code>+ Keep your files on your device.</code></div><div><b>03</b><code>Convert. Compare. Carry on.</code></div></div>
-      <div class="demo-bottom"><span><i class="green-dot"></i> 1 line added · 1 line removed</span><a href="/tools/text-diff">Try it yourself ↗</a></div>
+      <div class="demo-bottom"><span><i class="green-dot"></i> 1 line added · 1 line removed</span><a href="/tools/text-diff/">Try it yourself ↗</a></div>
       <div class="preview-note">Your files have places to go.<br /><em>Our servers aren't one of them.</em></div>
     </div>
   </section>
   <section class="tool-section wrap" id="tools">
     <div class="section-top"><div><div class="eyebrow">LESS BUSYWORK. MORE DONE.</div><h2>What are we working on?</h2></div><label class="search-box"><span aria-hidden="true">⌕</span><input id="tool-search" type="search" placeholder="Find a tool…" aria-label="Search tools" /><kbd>/</kbd></label></div>
     <div class="category-row"><div class="filters" role="group" aria-label="Filter tools">{['All tools', 'Markdown', 'Compare', 'Data', 'Images', 'PDF'].map((category, i) => <button data-category={category} class={i === 0 ? 'active' : ''} aria-pressed={i === 0}>{category}{i === 0 && <span>{tools.length}</span>}</button>)}</div><span class="tool-count" aria-live="polite"><b id="result-count">{tools.length}</b> useful tools, zero fuss</span></div>
-    <div class="tool-grid">{tools.map(tool => <a class="tool-card" href={`/tools/${tool.id}`} data-category={tool.category} data-search={`${tool.name} ${tool.description} ${tool.category}`}><div class="card-top"><span class:list={['tool-icon', tool.category.toLowerCase()]}>{tool.symbol}</span><span class="card-arrow">↗</span></div><h3>{tool.name}</h3><p>{tool.description}</p><div class="card-bottom"><span>{tool.input}<b>→</b>{tool.output}</span><span class="local-tag"><i></i> LOCAL</span></div></a>)}</div>
+    <div class="tool-grid">{tools.map(tool => <a class="tool-card" href={`/tools/${tool.id}/`} data-category={tool.category} data-search={`${tool.name} ${tool.description} ${tool.category}`}><div class="card-top"><span class:list={['tool-icon', tool.category.toLowerCase()]}>{tool.symbol}</span><span class="card-arrow">↗</span></div><h3>{tool.name}</h3><p>{tool.description}</p><div class="card-bottom"><span>{tool.input}<b>→</b>{tool.output}</span><span class="local-tag"><i></i> LOCAL</span></div></a>)}</div>
     <p id="no-results" class="empty-search" hidden>No tools match that search. Try “Markdown”, “JSON”, or “compare”.</p>
   </section>
   <section class="featured-guide wrap" aria-labelledby="guide-csv">
     <div><div class="eyebrow">LEARN BY EXAMPLE</div><h2 id="guide-csv">Compare CSV exports without false differences</h2><p>Records can move between exports without actually changing. Follow a real before-and-after example to compare by ID, find edited cells, and recognise added and removed rows.</p></div>
     <a href="/guides/compare-csv-files-by-id/">Read the CSV comparison guide ↗</a>
   </section>
-  <section class="values-strip wrap"><div><span>01</span><h3>Your device does the work.</h3><p>File contents stay in your browser. No uploads required.</p></div><div><span>02</span><h3>Straight to the useful part.</h3><p>No registration, email gates, or waiting in a conversion queue.</p></div><div><span>03</span><h3>A growing little toolkit.</h3><p>Image tools and PDF essentials are here. <a href="/about">See the roadmap ↗</a></p></div></section>
+  <section class="home-guides wrap" aria-labelledby="home-guides-heading">
+    <div class="home-guides-head"><div class="eyebrow">KNOW YOUR TOOLS</div><h2 id="home-guides-heading">Practical workflows, with examples</h2><p>Learn what each tool can actually do, the trade-offs to check and how to review the output before sharing.</p></div>
+    <div class="home-guides-grid">
+      {guides.slice(1, 4).map(guide => <article>
+        <span class="eyebrow">{guide.category}</span>
+        <h3><a href={guideHref(guide.slug)}>{guide.title} ↗</a></h3>
+        <p>{guide.description}</p>
+      </article>)}
+    </div>
+    <p><a class="all-guides-link" href="/guides/">Browse all {guides.length} practical guides ↗</a></p>
+  </section>
+  <section class="values-strip wrap"><div><span>01</span><h3>Your device does the work.</h3><p>File contents stay in your browser. No uploads required.</p></div><div><span>02</span><h3>Straight to the useful part.</h3><p>No registration, email gates, or waiting in a conversion queue.</p></div><div><span>03</span><h3>A growing little toolkit.</h3><p>Image tools and PDF essentials are here. <a href="/about/">See the roadmap ↗</a></p></div></section>
 </Layout>
 <script>
   const input = document.querySelector<HTMLInputElement>('#tool-search')!;
@@ -63,4 +75,17 @@ import { tools } from '../lib/catalog';
   .featured-guide p{font-size:13px;line-height:1.8;color:var(--muted);max-width:610px;margin:0}
   .featured-guide>a{font-size:12px;color:var(--accent);text-decoration:underline;text-underline-offset:3px;flex-shrink:0}
   @media(max-width:650px){.featured-guide{display:block;padding-top:30px;padding-bottom:30px}.featured-guide>a{display:inline-block;margin-top:18px}}
+</style>
+
+<style>
+  .home-guides{border-top:1px solid var(--border);padding-top:40px;padding-bottom:32px}
+  .home-guides-head h2{font-weight:500;font-size:25px;letter-spacing:-.6px;margin:12px 0}
+  .home-guides-head p,.home-guides-grid p{font-size:13px;line-height:1.8;color:var(--muted)}
+  .home-guides-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0}
+  .home-guides-grid article{border:1px solid var(--border);padding:22px;border-radius:6px;background:#fffefa}
+  .home-guides-grid h3{font-size:17px;font-weight:500;line-height:1.45;margin:13px 0}
+  .home-guides-grid h3 a{color:var(--ink)}
+  .home-guides-grid p{margin-bottom:0}
+  .all-guides-link{font-size:13px;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+  @media(max-width:650px){.home-guides-grid{grid-template-columns:1fr}.home-guides{padding-top:28px}}
 </style>
