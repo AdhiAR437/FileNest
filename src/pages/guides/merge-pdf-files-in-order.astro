@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="How to merge PDF files in the correct order | FilePebble" description="Combine a report, appendix and attachments into one PDF. Learn how to arrange files, check page counts and handle bookmarks or signatures.">
+  <article class="prose-page wrap">
+    <a href="/guides/">← All practical guides</a>
+    <div class="eyebrow">FILEPEBBLE GUIDES / PRACTICAL WORKFLOWS</div>
+    <h1>How to merge PDF files in the correct order</h1>
+    <p><strong>Reviewed 30 October 2026.</strong> Combining reports and attachments is easier when you decide the file order before exporting. FilePebble copies pages from multiple local PDFs into a new file. This walkthrough shows a small example and the checks worth making before you share it.</p>
+    <section><h2>1. Prepare the inputs</h2><p>Suppose you have report.pdf (8 pages), appendix.pdf (3 pages), and evidence.pdf (2 pages). Decide that the report must come first, followed by its appendix and evidence. Open each file and check that it displays properly before merging; a broken input will not become valid simply because it was combined.</p></section>
+    <section><h2>2. Choose and arrange the documents</h2><p>Open the Merge PDF tool, choose the three PDFs from your device, and use the order arrows until the files read report.pdf, appendix.pdf, evidence.pdf. The result should contain 13 pages. File order matters because pages are copied in sequence, rather than sorted by filenames or section titles.</p></section>
+    <section><h2>3. Export and verify</h2><p>Run the merge and download the output. Open the new document, inspect the transitions at pages 8–9 and 11–12, and confirm that the last page belongs to evidence.pdf. Also inspect any important tables, diagrams and hyperlinks. A page-count match is helpful, but it is not a complete quality check.</p></section>
+    <section><h2>4. What can be lost when merging</h2><p>The operation is page-focused. Original bookmarks, document metadata, attachments and some document-level features may not be preserved. Encrypted files, interactive forms and signed PDFs are unsupported. Do not use a merge operation to sanitize hidden metadata or preserve a legally significant digital signature.</p></section>
+    <section><h2>5. Limits and troubleshooting</h2><p>The current tool accepts 2–10 PDFs, up to 20 MB each, 40 MB combined and 100 pages total; the new output has a 50 MB limit. If a merge fails, reduce file sizes or split the job into smaller groups. If an input is encrypted or contains a signature, obtain a permitted unsigned copy instead of trying to bypass protection.</p></section>
+    <section><h2>6. After the merge</h2><p>If individual pages are in the wrong place, use Organise PDF to reorder, rotate or remove pages. For sending only selected pages, use Split PDF. Always download and review the final file before sharing sensitive or time-critical documents.</p></section>
+    <h2>Try the workflow</h2>
+    <p><a href="/tools/merge-pdf/">Open the related FilePebble tool</a>. Keep an original copy of important files, inspect the downloaded result, and report unexpected behavior through the <a href="/contact/">contact page</a>.</p>
+  </article>
+</Layout>
