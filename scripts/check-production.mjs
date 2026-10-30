@@ -31,9 +31,29 @@ async function probe(path, tests = []) {
   }
 }
 
-const homepage = await probe('/', [
+await probe('/', [
   ['Guides link missing from global navigation', /href=["']\/guides\/["']/i],
+  ['Grouped tools menu missing', /id=["']nav-tool-menu["']/i],
+  ['Dark mode toggle missing', /id=["']theme-toggle["']/i],
+  ['Tool groups missing', /id=["']tool-groups["']/i],
   ['Canonical homepage missing', /rel=["']canonical["']\s+href=["']https:\/\/filepebble\.com\/["']/i],
+]);
+await probe('/categories/compare/', [
+  ['Comparison heading missing', /Compare Text, CSV, JSON/i],
+  ['CSV comparison not discoverable', /href=["']\/tools\/csv-diff\/["']/i],
+]);
+await probe('/categories/pdf/', [
+  ['PDF category content missing', /Free PDF Merge, Split, Organise/i],
+  ['Merge tool link missing', /href=["']\/tools\/merge-pdf\/["']/i],
+]);
+await probe('/categories/images/', [
+  ['Image tool group missing', /Image Converter, Compressor/i],
+]);
+await probe('/categories/data/', [
+  ['Data tool group missing', /JSON Formatter/i],
+]);
+await probe('/categories/markdown/', [
+  ['Markdown group missing', /Markdown to PDF, Word/i],
 ]);
 await probe('/guides/', [
   ['Guides hub lacks a heading', /<h1\b[^>]*>[^<]*guides/i],
@@ -57,6 +77,9 @@ const sitemap = await probe('/sitemap-0.xml', [
   ['Guide hub missing from sitemap', /https:\/\/filepebble\.com\/guides\//i],
   ['CSV guide missing from sitemap', /https:\/\/filepebble\.com\/guides\/compare-csv-files-by-id\//i],
 ]);
+for (const slug of ['compare', 'pdf', 'images', 'data', 'markdown']) {
+  if (!sitemap.includes('https://filepebble.com/categories/' + slug + '/')) failures.push('Category not in live sitemap: ' + slug);
+}
 if (/<loc>https:\/\/filepebble\.com\/licenses\/</i.test(sitemap)) failures.push('License notices should not be in the sitemap.');
 await probe('/sitemap-index.xml', [['Missing sitemap child', /sitemap-0\.xml/i]]);
 await probe('/robots.txt', [['Missing sitemap directive', /Sitemap:\s*https:\/\/filepebble\.com\/sitemap-index\.xml/i]]);
