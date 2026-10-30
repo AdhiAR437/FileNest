@@ -11,20 +11,14 @@ import GuideFooter from '../../components/GuideFooter.astro';
 
     <h2>Example: two records with different fields</h2>
     <p>Imagine an API sends two customer records. The second includes a city while the first does not. Here is the input JSON:</p>
-    <pre><code>[
-  {"id":"001","name":"Asha"},
-  {"id":"002","name":"Ravi","city":"Udupi"}
-]</code></pre>
+    <pre><code>{"[\n  {\"id\":\"001\",\"name\":\"Asha\"},\n  {\"id\":\"002\",\"name\":\"Ravi\",\"city\":\"Udupi\"}\n]"}</code></pre>
     <p><a href="/tools/json-to-csv/">FilePebble's JSON to CSV converter</a> discovers the union of property names. It can produce:</p>
-    <pre><code>id,name,city
-001,Asha,
-002,Ravi,Udupi</code></pre>
+    <pre><code>{"id,name,city\n001,Asha,\n002,Ravi,Udupi"}</code></pre>
     <p>Here, <code>city</code> exists as a column even though Asha's record lacks it; the first cell is empty. Importantly, the ID <code>001</code> is represented as a JSON <em>string</em>, so the converter keeps those leading zeros in the exported CSV text.</p>
 
     <h2>Step 1: Provide a non-empty array of objects</h2>
     <p>Open <a href="/tools/json-to-csv/">JSON to CSV</a>. Paste JSON into the input editor or use <strong>Open file</strong> to load a local <code>.json</code> file. The top-level value must be a non-empty array containing objects. A single object is not accepted as-is:</p>
-    <pre><code>Not accepted: {"name":"Asha"}
-Accepted:     [{"name":"Asha"}]</code></pre>
+    <pre><code>{"Not accepted: {\"name\":\"Asha\"}\nAccepted:     [{\"name\":\"Asha\"}]"}</code></pre>
     <p>JSON syntax matters: keys and string values need double quotes, and trailing commas are invalid. For syntax troubleshooting, use <a href="/tools/json-formatter/">JSON formatter &amp; validator</a> before converting.</p>
 
     <h2>Step 2: Convert and inspect the columns</h2>
@@ -32,7 +26,7 @@ Accepted:     [{"name":"Asha"}]</code></pre>
     <p>A CSV cell may need quotes—for example a city written as <code>"Mangaluru, Karnataka"</code>. A correct CSV writer adds escaping where required. Do not strip CSV quotes manually just because the file appears more readable without them.</p>
 
     <h2>Step 3: Decide what to do with nested objects</h2>
-    <p>Nested JSON is not automatically expanded into multiple columns. For example, a property such as <code>"address":{"city":"Udupi"}</code> is serialized as JSON text inside one CSV cell. Similarly, an array like <code>"tags":["new","priority"]</code> becomes a JSON string in a cell.</p>
+    <p>Nested JSON is not automatically expanded into multiple columns. For example, a property such as <code>{'"address":{"city":"Udupi"}'}</code> is serialized as JSON text inside one CSV cell. Similarly, an array like <code>"tags":["new","priority"]</code> becomes a JSON string in a cell.</p>
     <p>If your spreadsheet needs a separate <code>city</code> column, transform the original records before conversion. Otherwise the nested structure remains text that another system may need to parse. This is safer than pretending that a nested object is already a flat table.</p>
 
     <h2>Step 4: Protect identifiers and understand spreadsheet behavior</h2>
