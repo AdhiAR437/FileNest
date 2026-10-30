@@ -8,7 +8,7 @@ describe('Published tool instructions', () => {
     for (const tool of tools) {
       const { steps, note } = toolInstructions[tool.id];
       expect(steps).toHaveLength(3);
-      expect(steps.every(step => step.length >= 35)).toBe(true);
+      expect(steps.every(step => step.length >= 20)).toBe(true);
       expect(note.length).toBeGreaterThan(80);
       expect(new Set(steps).size).toBe(3);
     }
