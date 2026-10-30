@@ -31,8 +31,11 @@ async function probe(path, tests = []) {
   }
 }
 
-const homepage = await probe('/', [
+await probe('/', [
   ['Guides link missing from global navigation', /href=["']\/guides\/["']/i],
+  ['Grouped tools menu missing', /id=["']nav-tool-menu["']/i],
+  ['Dark mode toggle missing', /id=["']theme-toggle["']/i],
+  ['Tool groups missing', /id=["']tool-groups["']/i],
   ['Canonical homepage missing', /rel=["']canonical["']\s+href=["']https:\/\/filepebble\.com\/["']/i],
 ]);
 await probe('/categories/compare/', [
@@ -74,6 +77,9 @@ const sitemap = await probe('/sitemap-0.xml', [
   ['Guide hub missing from sitemap', /https:\/\/filepebble\.com\/guides\//i],
   ['CSV guide missing from sitemap', /https:\/\/filepebble\.com\/guides\/compare-csv-files-by-id\//i],
 ]);
+for (const slug of ['compare', 'pdf', 'images', 'data', 'markdown']) {
+  if (!sitemap.includes('https://filepebble.com/categories/' + slug + '/')) failures.push('Category not in live sitemap: ' + slug);
+}
 if (/<loc>https:\/\/filepebble\.com\/licenses\/</i.test(sitemap)) failures.push('License notices should not be in the sitemap.');
 await probe('/sitemap-index.xml', [['Missing sitemap child', /sitemap-0\.xml/i]]);
 await probe('/robots.txt', [['Missing sitemap directive', /Sitemap:\s*https:\/\/filepebble\.com\/sitemap-index\.xml/i]]);
