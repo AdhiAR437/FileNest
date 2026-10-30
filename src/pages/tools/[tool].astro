@@ -9,6 +9,7 @@ import { tools } from '../../lib/catalog';
 import { toolGuides } from '../../lib/tool-guides';
 import { toolInstructions } from '../../lib/tool-instructions';
 import { toolSeo } from '../../lib/tool-seo';
+import { featuredGuides } from '../../lib/featured-guides';
 export function getStaticPaths() { return tools.map(tool => ({ params: { tool: tool.id }, props: { tool } })); }
 const { tool } = Astro.props;
 const guide = toolGuides[tool.id];
@@ -38,7 +39,7 @@ const seo = toolSeo[tool.id];
       </div>
       <h2>Frequently asked questions</h2>
       <div class="tool-faqs">{guide.faqs.map(faq => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div>
-      {tool.id === 'csv-diff' && <p class="guide-help"><strong>Step-by-step example:</strong> <a href="/guides/compare-csv-files-by-id/">Compare two CSV files by ID and identify added, removed and changed records</a>.</p>}
+      {featuredGuides[tool.id] && <p class="guide-help"><strong>Detailed walkthrough:</strong> <a href={`/guides/${featuredGuides[tool.id]!.slug}/`}>{featuredGuides[tool.id]!.title}</a>.</p>}
       <p class="guide-help">Still need a hand? <a href="/contact/">Contact the maintainer</a>.</p>
     </section>
   </section>
