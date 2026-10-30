@@ -109,6 +109,42 @@ try {
   });
   await fixturePage.close();
   const png = Buffer.from(pngBytes);
+  // Navigation, theme persistence, and SEO category pages should work on desktop and mobile.
+  for (const viewport of [{ width: 1280, height: 850 }, { width: 390, height: 844 }]) {
+    const context = await browser.newContext({ viewport });
+    const page = await context.newPage();
+    try {
+      await page.goto(base + '/');
+      await page.evaluate(() => localStorage.setItem('filepebble-theme', 'light'));
+      await page.reload();
+      await page.locator('#theme-toggle').click();
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+      await page.reload();
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark', 'Theme not persisted');
+      await page.locator('#nav-tool-menu summary').click();
+      await page.locator('.tools-dropdown a[href="/tools/merge-pdf/"]').waitFor();
+      assert.equal(await page.locator('.dropdown-group').count(), 5, 'Expected five grouped navigation sections');
+      const overflow = await page.evaluate(() => ({
+        extra: document.documentElement.scrollWidth - window.innerWidth,
+        offenders: [...document.querySelectorAll('body *')].filter(element => {
+          const rect = element.getBoundingClientRect();
+          return rect.right > innerWidth + 3 || rect.left < -3;
+        }).slice(0, 5).map(element => ({ tag: element.tagName, className: typeof element.className === 'string' ? element.className : '', right: Math.round(element.getBoundingClientRect().right) })),
+      }));
+      assert(overflow.extra <= 2, 'Horizontal scrolling: ' + JSON.stringify(overflow));
+      await page.locator('.tools-dropdown a[href="/categories/compare/"]').click();
+      await page.locator('.category-list .tool-card').first().waitFor();
+      assert.equal(await page.locator('.category-list .tool-card').count(), 4);
+      await page.locator('.category-list a[href="/tools/csv-diff/"]').click();
+      await page.locator('.tool-switcher').waitFor();
+      await page.locator('.tool-switcher-links a[href="/tools/json-diff/"]').click();
+      assert(page.url().endsWith('/tools/json-diff/'), 'Tool switcher did not navigate');
+      console.log('PASS navigation and persisted dark mode at ' + viewport.width + 'px');
+    } catch (error) {
+      failures.push({ tool: 'navigation-' + viewport.width, error: String(error) });
+      console.error('FAIL navigation-' + viewport.width + ': ' + error);
+    } finally { await context.close(); }
+  }
   for (const id of names) {
     const context = await browser.newContext({ acceptDownloads: true });
     const page = await context.newPage();
