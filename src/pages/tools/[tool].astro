@@ -10,16 +10,47 @@ import { toolGuides } from '../../lib/tool-guides';
 import { toolInstructions } from '../../lib/tool-instructions';
 import { toolSeo } from '../../lib/tool-seo';
 import { guides, guideHref } from '../../lib/guides';
+import { categories } from '../../lib/categories';
 export function getStaticPaths() { return tools.map(tool => ({ params: { tool: tool.id }, props: { tool } })); }
 const { tool } = Astro.props;
 const guide = toolGuides[tool.id];
 const seo = toolSeo[tool.id];
 const relatedGuide = guides.find(item => item.toolId === tool.id);
+const category = categories.find(group => group.name === tool.category)!;
+const switchTools = category.featured.map(id => tools.find(other => other.id === id)!).filter(Boolean);
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'SoftwareApplication',
+      name: tool.name + ' — FilePebble',
+      description: seo.description,
+      applicationCategory: 'UtilitiesApplication',
+      operatingSystem: 'Any modern web browser',
+      url: `https://filepebble.com/tools/${tool.id}/`,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'FilePebble', item: 'https://filepebble.com/' },
+        { '@type': 'ListItem', position: 2, name: category.name + ' tools', item: `https://filepebble.com/categories/${category.slug}/` },
+        { '@type': 'ListItem', position: 3, name: tool.name, item: `https://filepebble.com/tools/${tool.id}/` },
+      ],
+    },
+  ],
+};
 ---
-<Layout title={seo.title} description={seo.description}>
+<Layout title={seo.title} description={seo.description} schema={structuredData}>
   <section class="workbench-page wrap">
-    <a href="/#tools" class="back-link">← All tools</a>
+    <nav class="tool-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href={`/categories/${category.slug}/`}>{category.name} tools</a><span aria-hidden="true">/</span><span aria-current="page">{tool.name}</span></nav>
     <div class="workbench-heading"><div><div class="eyebrow">{tool.category.toUpperCase()} / PROCESSED LOCALLY</div><h1>{tool.name}</h1><p>{tool.description}</p></div><span class="tool-icon large-icon">{tool.symbol}</span></div>
+    <nav class="tool-switcher" aria-label="Switch between {category.name} tools">
+      <div class="tool-switcher-label">OTHER {category.name.toUpperCase()} TOOLS · SWITCH WITHOUT GOING BACK</div>
+      <div class="tool-switcher-links">{switchTools.map(other => <a href={`/tools/${other.id}/`} aria-current={other.id === tool.id ? 'page' : undefined}>{other.name}</a>)}
+        <a href={`/categories/${category.slug}/`}>See all {category.name} tools ↗</a>
+      </div>
+    </nav>
     {tool.kind === 'data-tool' ? <DataWorkbench mode={tool.mode} client:load /> : tool.kind === 'image-compare' ? <ImageCompare client:load /> : tool.kind === 'pdf' ? <PdfWorkbench mode={tool.mode} client:load /> : tool.kind === 'image' ? <ImageWorkbench mode={tool.mode} client:load /> : <Workbench id={tool.id} client:load />}
     <div class="tool-explanation">
       <div>
