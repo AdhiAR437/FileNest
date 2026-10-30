@@ -1,5 +1,4 @@
 import { readFile, access } from 'node:fs/promises';
-import { join } from 'node:path';
 
 const origin = 'https://filepebble.com';
 const dist = new URL('../dist/', import.meta.url);
@@ -20,6 +19,10 @@ try {
   if (!xml.includes('<urlset') || urls.length === 0) {
     fail('sitemap-0.xml is missing or contains no URLs');
   }
+  if (urls.some(u => u.endsWith('/licenses/'))) fail('Compliance notices must not appear in discovery sitemap');
+  if (!urls.some(u => u.endsWith('/guides/'))) fail('Guides hub missing from sitemap');
+  if (!urls.some(u => u.endsWith('/guides/compare-csv-files-by-id/'))) fail('Guides missing from sitemap');
+  if (urls.some(u => new URL(u).pathname !== '/' && !new URL(u).pathname.endsWith('/'))) fail('Noncanonical no-trailing-slash URL in sitemap');
   const bad = urls.filter((url) => !url.startsWith(origin + '/') || url.includes('&amp;') === false && url.includes('&'));
   if (bad.length) fail('Sitemap has invalid or off-domain URLs: ' + bad.join(', '));
   for (const url of urls) {
