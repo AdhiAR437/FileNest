@@ -51,7 +51,7 @@ a:focus-visible,summary:focus-visible,button:focus-visible,input:focus-visible,s
 [data-theme="dark"] .theme-toggle .theme-sun{display:block}
 .theme-toggle-label{font-size:12px}
 .hero{position:relative;isolation:isolate;min-height:510px;gap:55px;padding-top:72px;padding-bottom:77px}
-.hero:before{content:"";position:absolute;z-index:-1;pointer-events:none;inset:-20px -10vw -50px -10vw;background:radial-gradient(circle at 26% 31%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 35%),radial-gradient(circle at 90% 67%,color-mix(in srgb,var(--green) 9%,transparent),transparent 35%)}
+.hero:before{content:"";position:absolute;z-index:-1;pointer-events:none;inset:-20px 0 -50px 0;background:radial-gradient(circle at 26% 31%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 35%),radial-gradient(circle at 90% 67%,color-mix(in srgb,var(--green) 9%,transparent),transparent 35%)}
 .hero h1{font-size:clamp(60px,6.6vw,90px);line-height:1.05;letter-spacing:-4.8px;font-weight:750}
 .hero-copy>p{font-size:18px;line-height:1.75;max-width:580px}
 .hero .eyebrow{font-size:12px;letter-spacing:1.3px}
