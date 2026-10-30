@@ -35,6 +35,23 @@ const homepage = await probe('/', [
   ['Guides link missing from global navigation', /href=["']\/guides\/["']/i],
   ['Canonical homepage missing', /rel=["']canonical["']\s+href=["']https:\/\/filepebble\.com\/["']/i],
 ]);
+await probe('/categories/compare/', [
+  ['Comparison heading missing', /Compare Text, CSV, JSON/i],
+  ['CSV comparison not discoverable', /href=["']\/tools\/csv-diff\/["']/i],
+]);
+await probe('/categories/pdf/', [
+  ['PDF category content missing', /Free PDF Merge, Split, Organise/i],
+  ['Merge tool link missing', /href=["']\/tools\/merge-pdf\/["']/i],
+]);
+await probe('/categories/images/', [
+  ['Image tool group missing', /Image Converter, Compressor/i],
+]);
+await probe('/categories/data/', [
+  ['Data tool group missing', /JSON Formatter/i],
+]);
+await probe('/categories/markdown/', [
+  ['Markdown group missing', /Markdown to PDF, Word/i],
+]);
 await probe('/guides/', [
   ['Guides hub lacks a heading', /<h1\b[^>]*>[^<]*guides/i],
   ['CSV guide missing from guide index', /\/guides\/compare-csv-files-by-id\//i],
