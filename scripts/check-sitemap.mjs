@@ -28,6 +28,10 @@ try {
     '/guides/convert-json-records-to-csv/',
     '/guides/markdown-to-pdf-print-guide/',
   ];
+  for (const slug of ['compare','pdf','images','data','markdown']) {
+    const url = origin + '/categories/' + slug + '/';
+    if (!urls.includes(url)) fail('Missing SEO category page in sitemap: ' + url);
+  }
   for (const guide of guides) {
     if (!urls.includes(origin + guide)) fail('New guide not found in sitemap: ' + guide);
   }
