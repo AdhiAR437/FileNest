@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="How to split a PDF into selected pages or individual files | FilePebble" description="Extract page ranges such as 1,3-5, export individual pages as ZIP files and understand what PDF splitting does not remove.">
+  <article class="prose-page wrap">
+    <a href="/guides/">← All practical guides</a>
+    <div class="eyebrow">FILEPEBBLE GUIDES / PRACTICAL WORKFLOWS</div>
+    <h1>How to split a PDF into selected pages or individual files</h1>
+    <p><strong>Reviewed 30 October 2026.</strong> Sometimes you need only one chapter or a handful of pages from a larger PDF. FilePebble lets you extract page positions into a new PDF, or create separate page PDFs inside a ZIP. Page positions are counted from the start of the file, not from printed labels.</p>
+    <section><h2>1. Choose the source</h2><p>Open Split PDF and select one supported PDF. Imagine a 10-page report with an introduction on pages 1–2, results on pages 3–7 and an appendix on pages 8–10. Confirm the input loads and its page count before choosing a range.</p></section>
+    <section><h2>2. Enter a page selection</h2><p>To extract the introduction and the first three results pages, enter 1, 3-5. This selects original pages 1, 3, 4 and 5. Use a regular hyphen in ranges. Page positions start at 1; use positions in the file even if the visible printed page numbers are different.</p></section>
+    <section><h2>3. Choose one PDF or a ZIP</h2><p>Choose the combined option to keep the selected pages in one new PDF. If you instead need a separate file for each selected page, choose the separate-PDF option and download the ZIP archive. Leave the selection blank to select all pages.</p></section>
+    <section><h2>4. Check the result</h2><p>Open the downloaded PDF or extract the ZIP and confirm page order, orientation and readability. Sending only selected pages may be appropriate for sharing a section, but first verify that no unneeded pages were included. A failed or malformed selection should be corrected rather than guessed at.</p></section>
+    <section><h2>5. Splitting is not redaction</h2><p>Removing visible pages is not equivalent to secure redaction or sanitization. Document metadata, attachments and hidden content may require specialized handling. Do not treat splitting as proof that confidential information has been permanently removed.</p></section>
+    <section><h2>6. Limits and alternatives</h2><p>The tool supports a source PDF up to 20 MB and 100 pages under its PDF processing limits. Encrypted, signed and interactive-form documents are unsupported. To reorder or rotate instead of extracting, use Organise PDF; to combine several separate PDFs, use Merge PDF.</p></section>
+    <h2>Try the workflow</h2>
+    <p><a href="/tools/split-pdf/">Open the related FilePebble tool</a>. Keep an original copy of important files, inspect the downloaded result, and report unexpected behavior through the <a href="/contact/">contact page</a>.</p>
+  </article>
+</Layout>
