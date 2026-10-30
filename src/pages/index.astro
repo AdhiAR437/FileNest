@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { tools } from '../lib/catalog';
+import { allGuides } from '../lib/featured-guides';
 ---
 <Layout title="Free Online PDF, Image, Markdown & JSON Tools | FilePebble" description="Free online tools to merge and split PDFs, convert and compress images, compare text, format JSON, and convert Markdown. No signup; files processed in your browser.">
   <section class="hero wrap">
@@ -27,7 +28,7 @@ import { tools } from '../lib/catalog';
   </section>
   <section class="featured-guide wrap" aria-labelledby="guide-csv">
     <div><div class="eyebrow">LEARN BY EXAMPLE</div><h2 id="guide-csv">Compare CSV exports without false differences</h2><p>Records can move between exports without actually changing. Follow a real before-and-after example to compare by ID, find edited cells, and recognise added and removed rows.</p></div>
-    <a href="/guides/compare-csv-files-by-id/">Read the CSV comparison guide ↗</a>
+    <div class="home-guide-links"><a href="/guides/compare-csv-files-by-id/">Read the CSV comparison guide ↗</a><a href="/guides/">Explore all practical guides ↗</a></div>
   </section>
   <section class="values-strip wrap"><div><span>01</span><h3>Your device does the work.</h3><p>File contents stay in your browser. No uploads required.</p></div><div><span>02</span><h3>Straight to the useful part.</h3><p>No registration, email gates, or waiting in a conversion queue.</p></div><div><span>03</span><h3>A growing little toolkit.</h3><p>Image tools and PDF essentials are here. <a href="/about">See the roadmap ↗</a></p></div></section>
 </Layout>
@@ -61,6 +62,6 @@ import { tools } from '../lib/catalog';
   .featured-guide{display:flex;align-items:center;justify-content:space-between;gap:28px;padding-top:38px;padding-bottom:38px;border-top:1px solid var(--border)}
   .featured-guide h2{font-size:22px;font-weight:500;letter-spacing:-.5px;margin:11px 0}
   .featured-guide p{font-size:13px;line-height:1.8;color:var(--muted);max-width:610px;margin:0}
-  .featured-guide>a{font-size:12px;color:var(--accent);text-decoration:underline;text-underline-offset:3px;flex-shrink:0}
-  @media(max-width:650px){.featured-guide{display:block;padding-top:30px;padding-bottom:30px}.featured-guide>a{display:inline-block;margin-top:18px}}
+  .home-guide-links{display:flex;flex-direction:column;gap:14px}.home-guide-links a{font-size:12px;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+  @media(max-width:650px){.featured-guide{display:block;padding-top:30px;padding-bottom:30px}.home-guide-links{margin-top:18px}}
 </style>
