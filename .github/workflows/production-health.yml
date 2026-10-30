@@ -1,0 +1,26 @@
+name: Check live FilePebble deployment
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 5 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'astro.config.mjs'
+      - 'scripts/check-production.mjs'
+      - '.github/workflows/production-health.yml'
+permissions:
+  contents: read
+jobs:
+  live:
+    name: Public site smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Test public pages and SEO metadata
+        run: node scripts/check-production.mjs
