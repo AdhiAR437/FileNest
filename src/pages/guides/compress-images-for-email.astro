@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="How to compress images for email without losing too much quality | FilePebble" description="Reduce JPG or WebP size with practical quality checks, target-size limits and advice for PNG, transparency and image dimensions.">
+  <article class="prose-page wrap">
+    <a href="/guides/">← All practical guides</a>
+    <div class="eyebrow">FILEPEBBLE GUIDES / PRACTICAL WORKFLOWS</div>
+    <h1>How to compress images for email without losing too much quality</h1>
+    <p><strong>Reviewed 30 October 2026.</strong> An image attachment can be too large even when it looks fine on screen. The quickest reliable approach is to choose an appropriate format, try a moderate quality setting, and compare the downloaded result—not to trust a promised percentage saving.</p>
+    <section><h2>1. Pick the right source and output</h2><p>Use a still JPG, PNG or WebP photograph. Choose JPG for broad compatibility or WebP when the recipient supports it. PNG is generally useful for crisp graphics and transparency, but FilePebble's compressor creates lossy JPG or WebP, not a lossless PNG optimization.</p></section>
+    <section><h2>2. Try a realistic example</h2><p>Imagine a 3 MB phone photo intended for an email with a 1 MB attachment budget. Load the picture, select JPG output and start at quality 80–85%. Select Compress image and inspect both the picture and the actual new byte count. The resulting file size depends on image details; this is a method, not a guaranteed percentage reduction.</p></section>
+    <section><h2>3. Aim for a target size</h2><p>Enable the target-size option and enter a size such as 800 KB. The browser attempts to find an acceptable quality level within supported settings. If the result cannot reach that size, it reports the failure rather than pretending the target was met. Avoid repeatedly re-encoding an already compressed file when you still have the original.</p></section>
+    <section><h2>4. When resizing works better</h2><p>If a 4000-pixel-wide image is displayed only as a small thumbnail, reducing dimensions can save much more than reducing quality alone. Use Image resize to make a smaller copy first, preserving aspect ratio; then compress that copy. Do not overwrite your original if later printing or editing needs full resolution.</p></section>
+    <section><h2>5. Check fine detail and transparency</h2><p>Zoom in on faces, text, gradients and thin lines; these show compression artifacts quickly. JPG fills transparent areas with a chosen background, while WebP supports transparency. Converting a logo with hard edges into a lossy format can look worse than keeping a PNG.</p></section>
+    <section><h2>6. Privacy and limits</h2><p>The source is processed locally in the current browser session. It is still your responsibility to handle the downloaded file securely. The compressor handles one still image per job, up to 15 MB, 12 megapixels and 8,000 pixels per side. Browser encoding results can vary.</p></section>
+    <h2>Try the workflow</h2>
+    <p><a href="/tools/image-compressor/">Open the related FilePebble tool</a>. Keep an original copy of important files, inspect the downloaded result, and report unexpected behavior through the <a href="/contact/">contact page</a>.</p>
+  </article>
+</Layout>
