@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import GuideFooter from '../../components/GuideFooter.astro';
+---
+<Layout title="How to Merge PDF Files in Order (Browser Guide) | FilePebble" description="Merge a report and its attachments in the right order. Practical example, privacy considerations, limits, and checks for a reliable combined PDF.">
+  <article class="prose-page wrap">
+    <a href="/guides/">← All guides</a>
+    <div class="eyebrow">PRACTICAL GUIDE / PDF</div>
+    <h1>How to merge PDF files in the right order</h1>
+    <p><strong>Last reviewed: <time datetime="2026-10-30">30 October 2026</time>.</strong> A combined PDF is convenient when sending a report, application or set of reference documents. But page order matters: a cover letter after its supporting documents makes the result harder to follow. Here is a repeatable way to build one PDF and verify it before sharing.</p>
+
+    <h2>Start with a concrete example</h2>
+    <p>Suppose you have <code>summary.pdf</code> (2 pages), <code>report.pdf</code> (8 pages), and <code>appendix.pdf</code> (3 pages). You want the summary first, followed by the report and then the appendix. If each file is supported and all pages are retained, the final document should have <strong>13 pages</strong>.</p>
+    <pre><code>1. summary.pdf    — pages 1–2
+2. report.pdf     — pages 3–10
+3. appendix.pdf   — pages 11–13
+Expected result: 13 pages</code></pre>
+    <p>Write down the expected page count before merging. It is a simple check that catches an accidentally omitted attachment or an extra version of the same document.</p>
+
+    <h2>Step 1: Choose the source PDFs</h2>
+    <p>Open <a href="/tools/merge-pdf/">FilePebble's Merge PDF tool</a> and select <strong>Choose PDFs</strong>. Add the files you want to combine. The tool accepts 2–10 PDFs, with a maximum of 20 MB per file, 40 MB combined, 100 pages total, and a 50 MB output limit.</p>
+    <p>The tool reads and processes your files in the browser. It does not upload their contents to a conversion server. That does not make the finished download automatically safe to share—inspect its contents before sending it elsewhere.</p>
+
+    <h2>Step 2: Arrange the order deliberately</h2>
+    <p>Use the file-order arrows to place <code>summary.pdf</code> first, then <code>report.pdf</code>, then <code>appendix.pdf</code>. The merger copies pages in that order. An alphabetical file list is not necessarily the order you want, especially if a filename begins with a date or version number.</p>
+    <p>If you also need to move individual pages within the final document, first merge the files and then use <a href="/tools/organise-pdf/">Organise PDF</a> to reorder or rotate pages. The merge tool controls file order; the organiser controls page order.</p>
+
+    <h2>Step 3: Merge and verify the download</h2>
+    <p>Select <strong>Merge PDFs</strong>, then <strong>Download result</strong>. Open the new PDF in a reader. In our example, check page 1 is the summary, page 3 starts the report, page 11 starts the appendix, and the document has 13 pages.</p>
+    <p>Also inspect any page numbers already printed inside the documents. Those printed labels will not be automatically renumbered to match their new position in the merged file. For example, the appendix may still show “Page 1” on the eleventh page of the combined file.</p>
+
+    <h2>Important limitations and troubleshooting</h2>
+    <ul>
+      <li><strong>Password-protected files:</strong> Encrypted PDFs are unsupported. Use only an authorized, unprotected copy; do not attempt to bypass restrictions.</li>
+      <li><strong>Signed documents and forms:</strong> Interactive forms and digital signatures are unsupported. Even with another merger, altering a signed PDF can invalidate its signature.</li>
+      <li><strong>Bookmarks and metadata:</strong> FilePebble copies pages, not all document-level features. Do not assume bookmarks, outlines or metadata survive.</li>
+      <li><strong>Unexpected output size:</strong> Merging does not promise compression. If the resulting PDF is too large, reduce source-file size or use fewer documents.</li>
+      <li><strong>Browser memory or timeout:</strong> Split a very large job into smaller, supported groups. Keep a copy of each original.</li>
+    </ul>
+    <h2>When you should not merge</h2>
+    <p>If a recipient needs to edit each attachment separately, separate PDFs may be preferable. A merge is also <strong>not a sanitization or redaction process</strong>. Removing a visible page is not proof that all hidden data or metadata has been removed. For sensitive material, use an appropriate document-review process before distributing the result.</p>
+    <p><strong>Quick check before sending:</strong> right number of pages, intended order, readable text, no missing attachments and no unintended sensitive information.</p>
+    <GuideFooter slug="merge-pdf-files-in-order" toolId="merge-pdf" />
+  </article>
+</Layout>
