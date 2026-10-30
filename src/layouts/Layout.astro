@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-const { title = 'FilePebble — Small tools. Better files.', description = 'Free browser-based PDF, image, Markdown, comparison, and data tools. No account needed. File contents are processed on your device.' } = Astro.props;
+const { title = 'FilePebble — Small tools. Better files.', description = 'Free browser-based PDF, image, Markdown, comparison, and data tools. No account needed. File contents are processed on your device.', robots = 'index,follow' } = Astro.props;
 const canonical = new URL(Astro.url.pathname.replace(/\/?$/, '/'), Astro.site!);
 const verification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 const adsenseAccount = import.meta.env.PUBLIC_GOOGLE_ADSENSE_ACCOUNT?.trim() || 'ca-pub-2697619516906533';
@@ -13,6 +13,7 @@ if (adsenseAccount && !/^ca-pub-\d{16}$/.test(adsenseAccount)) throw new Error('
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
     {verification && <meta name="google-site-verification" content={verification} />}
     {adsenseAccount && <meta name="google-adsense-account" content={adsenseAccount} />}
     <link rel="canonical" href={canonical} />
