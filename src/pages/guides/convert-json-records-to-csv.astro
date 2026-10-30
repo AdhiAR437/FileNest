@@ -1,0 +1,48 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import GuideFooter from '../../components/GuideFooter.astro';
+---
+<Layout title="How to Convert JSON Records to CSV Safely | FilePebble" description="Turn a JSON array of objects into CSV, including optional properties and nested values. Learn about spreadsheet formula safety, null cells and leading-zero IDs.">
+  <article class="prose-page wrap">
+    <a href="/guides/">← All guides</a>
+    <div class="eyebrow">PRACTICAL GUIDE / DATA</div>
+    <h1>How to turn JSON records into CSV without losing important details</h1>
+    <p><strong>Last reviewed: <time datetime="2026-10-30">30 October 2026</time>.</strong> JSON stores structured records for APIs and applications. CSV arranges values into spreadsheet columns. Converting between them is easy when every record has the same flat fields, but real exports often contain missing properties, nested objects and identifiers that must be treated as text.</p>
+
+    <h2>Example: two records with different fields</h2>
+    <p>Imagine an API sends two customer records. The second includes a city while the first does not. Here is the input JSON:</p>
+    <pre><code>{"[\n  {\"id\":\"001\",\"name\":\"Asha\"},\n  {\"id\":\"002\",\"name\":\"Ravi\",\"city\":\"Udupi\"}\n]"}</code></pre>
+    <p><a href="/tools/json-to-csv/">FilePebble's JSON to CSV converter</a> discovers the union of property names. It can produce:</p>
+    <pre><code>{"id,name,city\n001,Asha,\n002,Ravi,Udupi"}</code></pre>
+    <p>Here, <code>city</code> exists as a column even though Asha's record lacks it; the first cell is empty. Importantly, the ID <code>001</code> is represented as a JSON <em>string</em>, so the converter keeps those leading zeros in the exported CSV text.</p>
+
+    <h2>Step 1: Provide a non-empty array of objects</h2>
+    <p>Open <a href="/tools/json-to-csv/">JSON to CSV</a>. Paste JSON into the input editor or use <strong>Open file</strong> to load a local <code>.json</code> file. The top-level value must be a non-empty array containing objects. A single object is not accepted as-is:</p>
+    <pre><code>{"Not accepted: {\"name\":\"Asha\"}\nAccepted:     [{\"name\":\"Asha\"}]"}</code></pre>
+    <p>JSON syntax matters: keys and string values need double quotes, and trailing commas are invalid. For syntax troubleshooting, use <a href="/tools/json-formatter/">JSON formatter &amp; validator</a> before converting.</p>
+
+    <h2>Step 2: Convert and inspect the columns</h2>
+    <p>Select <strong>Convert file</strong>, then review the generated CSV before using <strong>Download</strong>. Columns are collected from the keys found across all records, including optional properties. A missing or <code>null</code> property becomes an empty CSV cell. That means a CSV reader may not be able to distinguish “missing,” “null,” and “empty string” without extra rules from your application.</p>
+    <p>A CSV cell may need quotes—for example a city written as <code>"Mangaluru, Karnataka"</code>. A correct CSV writer adds escaping where required. Do not strip CSV quotes manually just because the file appears more readable without them.</p>
+
+    <h2>Step 3: Decide what to do with nested objects</h2>
+    <p>Nested JSON is not automatically expanded into multiple columns. For example, a property such as <code>{'"address":{"city":"Udupi"}'}</code> is serialized as JSON text inside one CSV cell. Similarly, an array like <code>"tags":["new","priority"]</code> becomes a JSON string in a cell.</p>
+    <p>If your spreadsheet needs a separate <code>city</code> column, transform the original records before conversion. Otherwise the nested structure remains text that another system may need to parse. This is safer than pretending that a nested object is already a flat table.</p>
+
+    <h2>Step 4: Protect identifiers and understand spreadsheet behavior</h2>
+    <p>A CSV is plain text, but spreadsheet applications may automatically turn <code>001</code> into <code>1</code>, interpret long numbers imprecisely or transform text that looks like a date. When importing a CSV, explicitly set identifier columns to <em>Text</em> where that option exists.</p>
+    <p>For very large numeric IDs, start with JSON string values instead of JSON numbers. The converter parses JSON using JavaScript's number handling; a number larger than its safe-integer range may already have changed before CSV export.</p>
+    <p>CSV has another subtle risk: a cell beginning with characters such as <code>=</code> may be interpreted as a formula by spreadsheet software. FilePebble uses formula escaping when exporting CSV to reduce this risk. Such protection can add a leading apostrophe to some cells. If you are importing into a system that requires exact original strings, review how it handles those prefixes and test a small file first.</p>
+
+    <h2>Limits and checks before using the CSV</h2>
+    <ul>
+      <li><strong>Input format:</strong> JSON array of objects, not an Excel workbook.</li>
+      <li><strong>Input size:</strong> text tools support up to 1 MB per input.</li>
+      <li><strong>Validation:</strong> conversion verifies usable JSON structure, not that every record matches your business schema.</li>
+      <li><strong>Completeness:</strong> check the first and last records, expected row count and important columns.</li>
+      <li><strong>Privacy:</strong> input processing is local, but the downloaded CSV still contains your data. Share it carefully.</li>
+    </ul>
+    <p>Need to go the other way? <a href="/tools/csv-to-json/">CSV to JSON</a> reads a header row and retains source values as strings. Need to compare two exports? Try the <a href="/guides/compare-csv-files-by-id/">CSV comparison by ID guide</a>.</p>
+    <GuideFooter slug="convert-json-records-to-csv" toolId="json-to-csv" />
+  </article>
+</Layout>

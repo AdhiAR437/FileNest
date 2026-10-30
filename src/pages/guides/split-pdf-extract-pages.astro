@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import GuideFooter from '../../components/GuideFooter.astro';
+---
+<Layout title="How to Split a PDF and Extract Pages | FilePebble" description="Extract a few pages from a PDF or save each selected page as an individual PDF. Step-by-step page-range examples, ZIP output, limits and safety notes.">
+  <article class="prose-page wrap">
+    <a href="/guides/">← All guides</a>
+    <div class="eyebrow">PRACTICAL GUIDE / PDF</div>
+    <h1>How to split a PDF and extract only the pages you need</h1>
+    <p><strong>Last reviewed: <time datetime="2026-10-30">30 October 2026</time>.</strong> When someone asks for just a section of a long report, sending all its pages wastes attention. Splitting lets you extract selected page positions or save individual pages as separate PDF documents.</p>
+
+    <h2>Example: keep pages 1, 3, 4 and 5</h2>
+    <p>Imagine a 10-page training packet. The recipient needs the cover and the three pages containing exercises. They are located at positions 1, 3, 4 and 5 in the original PDF. The page selection <code>1,3-5</code> means “page one, plus pages three through five.”</p>
+    <pre><code>Original: 10 pages
+Selection: 1,3-5
+Selected positions: 1, 3, 4, 5
+Output: 4 pages in one PDF
+Or: 4 separate PDFs inside a ZIP</code></pre>
+    <p>The numbers refer to <strong>positions in the PDF</strong>, not printed page numbers. A report might display “i, ii, 1, 2” on its pages even though the viewer calls them positions 1, 2, 3, 4.</p>
+
+    <h2>Step 1: Load the PDF</h2>
+    <p>Open <a href="/tools/split-pdf/">Split PDF</a> and choose a single PDF. The tool processes the file locally and reports its page count. Files are limited to 20 MB each, 40 MB combined and up to 100 pages for supported PDF operations.</p>
+    <p>Check the source before processing. If the PDF has scanned pages, splitting still works because the operation copies pages; it does not need readable text. However, it also does not add OCR or make scanned words searchable.</p>
+
+    <h2>Step 2: Specify the page range</h2>
+    <p>In <strong>Pages to include</strong>, enter <code>1,3-5</code>. Use a comma to separate individual positions and a normal hyphen for a range. A blank field means all pages. Avoid duplicate page selections and positions outside the document length.</p>
+    <p>To get the last two pages of a 10-page report, use <code>9-10</code>. To keep just the title page, use <code>1</code>. When extracting a document section, double-check where it starts; the printed chapter number is not always the same as its PDF position.</p>
+
+    <h2>Step 3: Choose one combined PDF or a ZIP of PDFs</h2>
+    <p>By default, selected pages become <strong>one PDF</strong> in the order specified by the selection. For a separate document for each selected page, enable <strong>Save each selected page as a separate PDF in a ZIP</strong>. Then select <strong>Split PDF</strong> and download the result.</p>
+    <p>A ZIP is an archive containing multiple files. Extract it after downloading to access the individual PDFs. If you intended to email one short extract, leave separate-page mode disabled.</p>
+
+    <h2>Step 4: Verify the extracted document</h2>
+    <p>Open the output and check its first and last pages, total page count, and page orientation. Our four-page example should contain exactly the original positions 1, 3, 4 and 5. Save the original PDF somewhere safe; your extracted file is a new derivative, not a replacement.</p>
+
+    <h2>Common questions and mistakes</h2>
+    <ul>
+      <li><strong>Blank selection:</strong> all pages are selected. This is useful when you want a ZIP of every page, not when you want a short excerpt.</li>
+      <li><strong>Protected PDFs:</strong> encrypted, signed or interactive-form PDFs are unsupported. Use an authorized input version.</li>
+      <li><strong>Need to move or rotate pages?</strong> Use <a href="/tools/organise-pdf/">Organise PDF</a>, which is intended for rearranging pages rather than selecting a range.</li>
+      <li><strong>Need pictures instead of PDFs?</strong> Use <a href="/tools/pdf-to-images/">PDF to images</a> for PNG or JPG output.</li>
+      <li><strong>Need selectable text?</strong> <a href="/tools/pdf-to-text/">PDF to text</a> can extract text already present in a text layer but cannot recognize scans.</li>
+    </ul>
+
+    <h2>A privacy warning: splitting is not secure redaction</h2>
+    <p>Do not use a split operation to claim that a confidential original is now safely sanitized. PDF pages can contain document-level features and embedded or hidden information. If you are preparing legal, medical or personnel documents, use a dedicated, verified redaction workflow and check the final document independently. FilePebble's splitter is for selecting pages, not certifying information removal.</p>
+
+    <GuideFooter slug="split-pdf-extract-pages" toolId="split-pdf" />
+  </article>
+</Layout>

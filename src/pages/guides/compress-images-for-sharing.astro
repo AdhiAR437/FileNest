@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import GuideFooter from '../../components/GuideFooter.astro';
+---
+<Layout title="Compress Images for Email Without Ruining Quality | FilePebble" description="Reduce JPG and WebP image sizes for attachments and forms. Learn when to resize, how quality targets work and why output size is never guaranteed.">
+  <article class="prose-page wrap">
+    <a href="/guides/">← All guides</a>
+    <div class="eyebrow">PRACTICAL GUIDE / IMAGES</div>
+    <h1>How to compress images for email and upload forms</h1>
+    <p><strong>Last reviewed: <time datetime="2026-10-30">30 October 2026</time>.</strong> A large image can be hard to attach or upload, but “make it smaller” can mean two different things: use fewer bytes or use fewer pixels. For most photos, adjusting encoding quality first is a good starting point. For very large dimensions, resizing can help more than aggressively reducing quality.</p>
+
+    <h2>Understand the three measurements</h2>
+    <p><strong>Dimensions</strong> are the pixel width and height—for example, 2400 × 1600. <strong>File size</strong> is the storage used, such as 2.8 MB. <strong>Quality</strong> is a setting for lossy formats such as JPG and WebP. An 85% quality setting is not a promise that the file will be 85% of its previous size.</p>
+    <p>Two photos with the same dimensions and quality setting can still end up with different sizes. Fine textures, noise, sharp edges and the encoder itself affect the output.</p>
+
+    <h2>Example: prepare a photo for a 200 KB limit</h2>
+    <p>Suppose a registration form asks for a photo under 200 KB, and you have a 2400 × 1600 JPG that is 2.8 MB. Do not expect one exact quality percentage to meet the limit. Use this workflow instead:</p>
+    <ol>
+      <li>Open <a href="/tools/image-compressor/">Image compressor</a> and choose the original JPG.</li>
+      <li>Select JPG or WebP, depending on the destination's accepted formats. If the form explicitly requires JPG, keep JPG.</li>
+      <li>Enable <strong>Aim for a target size</strong> and enter <code>200</code> KB. Set a reasonable maximum quality, such as 85%, as your starting preference.</li>
+      <li>Select <strong>Compress image</strong> and inspect the actual result, including the before-and-after sizes and visual preview.</li>
+      <li>If FilePebble says the target was not reached, open <a href="/tools/image-resize/">Image resize &amp; crop</a>, reduce the dimensions, and try again with the resized image.</li>
+    </ol>
+    <p><strong>Illustrative resizing:</strong> 2400 × 1600 pixels reduced to 1200 × 800 contains one quarter as many pixels. It does not necessarily produce a quarter of the file size: compression efficiency and image detail still matter.</p>
+
+    <h2>Which format should you choose?</h2>
+    <ul>
+      <li><strong>JPG:</strong> a practical choice for photographs and destinations that require a JPG upload. It does not preserve transparency.</li>
+      <li><strong>WebP:</strong> often compresses photos efficiently, but some older software and upload forms may not accept it. Check the destination requirements first.</li>
+      <li><strong>PNG:</strong> useful for text-heavy diagrams or transparent artwork. FilePebble's <em>compressor</em> does not provide lossless PNG optimization; <a href="/tools/image-converter/">Image converter</a> can export PNG.</li>
+    </ul>
+    <p>Re-encoding a low-quality JPG at a higher quality setting cannot restore lost details. Keep the untouched original if you may need a high-quality version later.</p>
+
+    <h2>What to look for in the preview</h2>
+    <p>Inspect faces, edges of letters, fine lines and high-contrast textures. Lossy compression can introduce ringing or block-like artifacts near sharp boundaries. If the preview looks visibly damaged, raise the quality, reduce pixel dimensions instead, or accept a larger file where the receiving service permits it.</p>
+    <p>For screenshots with tiny text, resizing may make the words unreadable even if the file becomes much smaller. Keep enough pixels for a recipient to zoom into the screenshot.</p>
+
+    <h2>Browser processing, limits and caveats</h2>
+    <p>FilePebble works on one still JPG, PNG or WebP image at a time, up to 15 MB, with a maximum side length of 8,000 pixels and a 12-megapixel limit. It compresses to JPG or WebP. The target size is <strong>not guaranteed</strong>; sometimes an already-optimized photo gets larger. The browser re-encodes the picture, so original EXIF metadata is not preserved. Colors and output quality may vary slightly among browsers.</p>
+    <p>Processing runs on your device; the image itself is not sent to a conversion server. Nevertheless, once you submit the downloaded file to a third-party form, that site's privacy policy applies.</p>
+
+    <h2>Quick decision guide</h2>
+    <p>For a photo attachment, try a moderate JPG/WebP quality adjustment and check the file size. For strict upload limits, add dimension reduction if needed. For a diagram or logo with transparency, try PNG and avoid assuming the photo compressor is a lossless optimizer. Always preview the result before deleting the original.</p>
+    <GuideFooter slug="compress-images-for-sharing" toolId="image-compressor" />
+  </article>
+</Layout>

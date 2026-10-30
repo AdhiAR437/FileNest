@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { guides, guideHref } from '../../lib/guides';
+---
+<Layout title="File Conversion & Comparison Guides | FilePebble" description="Practical file workflow tutorials for PDF splitting and merging, image compression, Markdown, JSON to CSV, and comparing CSV files, with examples and limitations.">
+  <section class="prose-page wrap guides-index">
+    <a href="/">← All tools</a>
+    <div class="eyebrow">FILEPEBBLE / LEARN BY DOING</div>
+    <h1>Practical guides for everyday files</h1>
+    <p>Short, specific walkthroughs built around tools you can use on FilePebble today. Each guide explains the steps, shows a realistic example, and calls out the limitations to check before sharing an output.</p>
+    <p>No account is required to use the tools. File contents are processed locally in your browser, but downloaded results still deserve a careful review before distribution.</p>
+    <div class="guide-index-list">
+      {guides.map(guide => <article>
+        <span class="eyebrow">{guide.category}</span>
+        <h2><a href={guideHref(guide.slug)}>{guide.title} ↗</a></h2>
+        <p>{guide.description}</p>
+        <a class="guide-tool-link" href={`/tools/${guide.toolId}/`}>Try the tool</a>
+      </article>)}
+    </div>
+  </section>
+  <style>
+    .guide-index-list{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:32px}
+    .guide-index-list article{padding:24px;border:1px solid var(--border);background:#fffefa;border-radius:6px}
+    .guide-index-list h2{font-size:19px;line-height:1.4;letter-spacing:-.3px;margin:12px 0}
+    .guide-index-list h2 a{text-decoration:none;color:var(--ink)}
+    .guide-index-list p{margin:0 0 14px}
+    .guide-index-list .guide-tool-link{font-size:12px}
+    @media(max-width:650px){.guide-index-list{grid-template-columns:1fr}.guide-index-list article{padding:20px}}
+  </style>
+</Layout>
