@@ -45,7 +45,7 @@ const structuredData = {
   <section class="workbench-page wrap">
     <nav class="tool-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href={`/categories/${category.slug}/`}>{category.name} tools</a><span aria-hidden="true">/</span><span aria-current="page">{tool.name}</span></nav>
     <div class="workbench-heading"><div><div class="eyebrow">{tool.category.toUpperCase()} / PROCESSED LOCALLY</div><h1>{tool.name}</h1><p>{tool.description}</p></div><span class="tool-icon large-icon">{tool.symbol}</span></div>
-    <nav class="tool-switcher" aria-label="Switch between {category.name} tools">
+    <nav class="tool-switcher" aria-label={`Switch between ${category.name} tools`}>
       <div class="tool-switcher-label">OTHER {category.name.toUpperCase()} TOOLS · SWITCH WITHOUT GOING BACK</div>
       <div class="tool-switcher-links">{switchTools.map(other => <a href={`/tools/${other.id}/`} aria-current={other.id === tool.id ? 'page' : undefined}>{other.name}</a>)}
         <a href={`/categories/${category.slug}/`}>See all {category.name} tools ↗</a>
